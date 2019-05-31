@@ -1,4 +1,4 @@
-/cmod.sublime-workspace
-/cmod.sublime-project
+/cmod.sublime*
 /source/source.pro.user
 /test/test.pro.user
+/build*

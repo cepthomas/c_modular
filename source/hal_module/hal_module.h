@@ -9,15 +9,13 @@
 
 //---------------- Public API ----------------------//
 
+#define NUM_DIG_INPUTS 16
+#define NUM_DIG_OUTPUTS 16
+#define NUM_ANA_INPUTS 8
+#define NUM_ANA_OUTPUTS 2
+
+
 //---------------- Definitions ---------------------//
-
-// // How many of each.
-// #define NUM_DIG_IN     8
-// #define NUM_DIG_OUT    8
-// #define NUM_ANA_IN     4
-// #define NUM_ANA_OUT    2
-// #define SER_BUFF_LEN  64
-
 
 /// Type: Function pointer for registration of digital input change callbacks.
 /// @param which The digital input whose state has changed.
@@ -44,7 +42,7 @@ status_t hal_init(void);
 /// @return Status.
 status_t hal_enbInterrupts(bool);
 
-//---------------- Digital Functions -----------------//
+//---------------- Digital IO Functions -----------------//
 
 // Digital I/O
 /// Mod_desc.
@@ -63,7 +61,7 @@ status_t hal_writePin(int pin, bool value);
 status_t hal_readPin(int pin, bool* value);
 
 
-//---------------- Analog Functions -----------------//
+//---------------- Analog IO Functions -----------------//
 
 // Analog I/O
 /// Mod_desc.
@@ -103,11 +101,19 @@ status_t hal_writeSer(int channel, char* buff, int* num);
 
 //---------------- Timer Functions -----------------//
 
-// Timers
-/// Mod_desc.
-/// @param name desc.
+/// Timer interrupts.
+/// @param period How oftern in msec.
+/// @param fp Callback function.
 /// @return Status.
-status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp);
+status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp);
+
+/// Get number of microseconds since reset.
+/// @return Microseconds.
+uint64_t hal_getPerfCtr(void);
+
+/// Reset counter.
+/// @return Microseconds.
+void hal_resetPerfCtr(void);
 
 
 #endif // HAL_MODULE_H

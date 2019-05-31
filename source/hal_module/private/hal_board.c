@@ -81,6 +81,16 @@ status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp)
     return stat;
 }
 
+//--------------------------------------------------------//
+uint64_t hal_getPerfCtr(void)
+{
+    return 999;
+}
+
+//--------------------------------------------------------//
+void hal_resetPerfCtr(void)
+{
+}
 
 //--------------------------------------------------------//
 status_t hal_writePin(int pin, bool value)

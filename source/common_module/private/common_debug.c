@@ -29,7 +29,7 @@ void common_debugLog(int level, const char* format, ...)
 
         //to get rid of the warning when -Wformat-security is enabled.
         vsnprintf(s_buff, sizeof(s_buff), format, args);
-        printf("%s", s_buff);
+        printf("%s", s_buff); //TODO or somewhere else? CLI? Use FILE* like cbot?
         //puts(s_buff);
 
         // if(format[strlen(format) - 1] != '\n')

@@ -1,9 +1,13 @@
 
+#include <time.h>
+#include <sys/time.h>
+#include <string.h>
+
 #include "hal_module.h"
 #include "hal_sim.h"
 
 
-//---------------- Private --------------------------//
+//---------------- Private API Implementation ---------------//
 
 /// Registered client callback.
 static fpDigInterrupt s_digInterrupt;
@@ -18,6 +22,25 @@ static fpTimerInterrupt s_timerInterrupt;
 static bool s_enbInterrupts;
 
 
+//---------------- Private Simulator Implementation ---------------//
+
+/// For calculating durations.
+static uint64_t s_perfCtr;
+
+//// Input pin info. Used for normal and interrupt inputs.
+//typedef struct
+//{
+//    bool state;
+//    fpDigInterrupt fpCB;
+//} digInput_t;
+
+static bool s_digInputs[NUM_DIG_INPUTS];
+
+static bool s_digOutputs[NUM_DIG_OUTPUTS];
+
+static int s_timerPeriod;
+
+
 //---------------- Public API Implementation -------------//
 
 
@@ -30,6 +53,7 @@ status_t hal_init(void)
     s_digInterrupt = NULL;
     s_anaInterrupt = NULL;
     s_timerInterrupt = NULL;
+    s_timerPeriod = 0;
   
     return stat;
 }
@@ -54,7 +78,6 @@ status_t hal_regDigInterrupt(fpDigInterrupt fp)
     return stat;
 }
 
-
 //--------------------------------------------------------//
 status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 {
@@ -66,37 +89,38 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp)
+status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp)
 {
     status_t stat = STATUS_OK;
 
+    s_timerPeriod = period;
     s_timerInterrupt = fp;
 
     return stat;
 }
 
-
 //--------------------------------------------------------//
 status_t hal_writePin(int pin, bool value)
 {
     status_t stat = STATUS_OK;
-
+    s_digOutputs[pin] = value;
     return stat;
 }
-
 
 //--------------------------------------------------------//
 status_t hal_readPin(int pin, bool* value)
 {
     status_t stat = STATUS_OK;
-
+    *value = s_digInputs[pin];
     return stat;
 }
-
 
 //--------------------------------------------------------//
 status_t hal_writeAnalog(int channel, uint16_t value)
 {
+    (void)channel;
+    (void)value;
+
     status_t stat = STATUS_OK;
 
     return stat;
@@ -105,6 +129,9 @@ status_t hal_writeAnalog(int channel, uint16_t value)
 //--------------------------------------------------------//
 status_t hal_readAnalog(int channel, uint16_t value)
 {
+    (void)channel;
+    (void)value;
+
     status_t stat = STATUS_OK;
 
     return stat;
@@ -113,6 +140,8 @@ status_t hal_readAnalog(int channel, uint16_t value)
 //--------------------------------------------------------//
 status_t hal_openSer(int channel)
 {
+    (void)channel;
+
     status_t stat = STATUS_OK;
 
     return stat;
@@ -134,154 +163,78 @@ status_t hal_writeSer(int channel, char* buff, int* num)
     return stat;    
 }
 
-
-#ifdef _TO_PROCESS
-
-/////////////////////////// TO PROCESS /////////////////////////
-/////////////////////////// TO PROCESS /////////////////////////
-/////////////////////////// TO PROCESS /////////////////////////
-
-
-/* ======================= MODULE SIMULATED FUNCTIONS - PROCBOARD === */
-
-uint64_t timerGetTimeUSec()
+//--------------------------------------------------------//
+uint64_t hal_getPerfCtr(void)
 {
+    // Get current time/count.
     struct timeval tv;
     struct timezone tz;
     gettimeofday(&tv, &tz);
     long usec = tv.tv_sec * 1000000 + tv.tv_usec;
-    return (uint64_t)usec;
+
+    return usec - s_perfCtr;
 }
 
-void caldwell_printf(const char* fmt, ...)
+//--------------------------------------------------------//
+void hal_resetPerfCtr(void)
 {
-    va_list args;
-    va_start(args, fmt);
-    debugLog(3, fmt, args);
+    s_perfCtr = 0;
 }
 
 
 
-/* ======================= PRIVATE DATA ============================= */
+//---------------- Simulator Implementation -------------//
 
-// Input pin info. Used for normal and interrupt inputs.
-typedef struct gpioInput
+
+//--------------------------------------------------------//
+void sim_io_clearInputs()
 {
-    gpioPinState_t state;
-    fpGpioCallback fpCB;
-} gpioInput_t;
-
-static gpioInput_t s_gpioInputs[INPIN_COUNT];
-
-static gpioPinState_t s_gpioOutputs[OUTPIN_COUNT];
-
-
-/* ======================= SIMULATOR API FUNCTIONS ================== */
-
-void sim_gpio_injectInput(gpioInputPin_t pin, gpioPinState_t state)
-{
-    s_gpioInputs[pin].state = state;
-
-    if(s_gpioInputs[pin].fpCB != NULL)
+    for(int i = 0; i < NUM_DIG_INPUTS; i++)
     {
-        s_gpioInputs[pin].fpCB(pin, state);
+        s_digInputs[i] = false;
     }
 }
 
-void sim_gpio_clearInputs()
+//--------------------------------------------------------//
+void sim_io_clearOutputs()
 {
-    s_gpioInputs[INPIN_SWITCH_OPEN].state = PIN_CLR;
-    s_gpioInputs[INPIN_SWITCH_CLOSE].state = PIN_CLR;
-    s_gpioInputs[INPIN_SWITCH_STOP].state = PIN_CLR;
-    s_gpioInputs[INPIN_SWITCH_UNLOCK].state = PIN_CLR;
-    s_gpioInputs[INPIN_BRAKE_FAULT].state = PIN_SET;
-    s_gpioInputs[INPIN_CLUTCH_FAULT].state = PIN_SET;
-    s_gpioInputs[RF_GPIO_TD].state = PIN_SET;
-}
-
-void sim_gpio_clearInterrupts()
-{
-    for(int i = 0; i < INPIN_COUNT; i++)
+    for(int i = 0; i < NUM_DIG_OUTPUTS; i++)
     {
-        s_gpioInputs[i].fpCB = NULL;
+        s_digOutputs[i] = false;
     }
 }
 
-void sim_gpio_clearOutputs()
+//--------------------------------------------------------//
+void sim_io_injectInput(int pin, bool state)
 {
-    s_gpioOutputs[OUTPIN_BATTCHG_EN] = PIN_SET;
-    s_gpioOutputs[OUTPIN_BRAKE_EN] = PIN_SET;
-    s_gpioOutputs[OUTPIN_CLUTCH_EN] = PIN_SET;
-    s_gpioOutputs[OUTPIN_MOTOR_DIR] = PIN_CLR;
-    s_gpioOutputs[OUTPIN_DATA_A_EN] = PIN_CLR;
-    s_gpioOutputs[OUTPIN_DATA_B_EN] = PIN_CLR;
-    s_gpioOutputs[OUTPIN_DBG_1] = PIN_CLR;
-    s_gpioOutputs[OUTPIN_DBG_2] = PIN_CLR;
-    s_gpioOutputs[OUTPIN_LED_GRN] = PIN_SET;
-    s_gpioOutputs[OUTPIN_LED_RED] = PIN_SET;
-    s_gpioOutputs[OUTPIN_LED_YLW] = PIN_SET;
+    s_digInputs[pin] = state;
+
+    if(s_digInterrupt != NULL)
+    {
+        s_digInterrupt(pin, state);
+    }
 }
 
-
-/* ======================= MODULE SIMULATED FUNCTIONS =============== */
-
-///// Simulation of the gpio register lib function.
-bool gpioManager_regPinChangeCB(gpioInputPin_t pin, fpGpioCallback fpCB)
+//--------------------------------------------------------//
+bool sim_io_getOutputPin(int pin)
 {
-    bool status = false;
-
-    s_gpioInputs[pin].fpCB = fpCB;
-    status = true;
-
-    return status;
-}
-
-///// Simulation of the gpio register lib function.
-bool gpioManager_regDebouncedCB(gpioInputPin_t pin, fpGpioCallback fpCB)
-{
-    // We consider them the same.
-    return gpioManager_regPinChangeCB(pin, fpCB);
-}
-
-///// Simulation of the gpio read pin function.
-gpioPinState_t gpioManager_getInputPin(gpioInputPin_t pin)
-{
-    return s_gpioInputs[pin].state;
-}
-
-//// Simulation of the gpio output function.
-void gpioManager_setPin(gpioOutputPin_t pin, gpioPinState_t state)
-{
-    s_gpioOutputs[pin] = state;
-}
-
-//// Simulation of the gpio output function.
-gpioPinState_t gpioManager_getOutputPin(gpioOutputPin_t pin)
-{
-    return s_gpioOutputs[pin];
+    return s_digOutputs[pin];
 }
 
 
 
-/* ======================= PRIVATE DATA ============================= */
-
-static uint16_t s_debugLevel;
-
+///////////////////////// TODO all this below ////////////////////
 // Crude write queue.
+#define BUFF_LEN 128
 #define NUM_PRINT_BUF 20
-static char s_writeBuff[NUM_PRINT_BUF][CLI_PRINT_BUF_LENGTH];
+static char s_writeBuff[NUM_PRINT_BUF][BUFF_LEN];
+static char* s_inputBuff;//[BUFF_LEN];
 static int s_writeBuffIndex = 0;
-
-// Pointer to cli internal buffer for input string.
-static char* s_inputBuff;
-
 // Synchronize simulated serial read.
 static bool s_armRead = false;
 
-
-/* ======================= SIMULATOR API FUNCTIONS ================== */
-
-bool sim_cli_injectInput(const char* input)
+//--------------------------------------------------------//
+bool sim_cli_InjectInput(const char* input)
 {
     // Clear write buffer.
     memset(s_writeBuff, 0, sizeof(s_writeBuff));
@@ -293,12 +246,14 @@ bool sim_cli_injectInput(const char* input)
     s_armRead = true;
 
     // Pump it.
-    bool status = cliInterpreter(0);
+//    bool status = cliInterpreter(0);
+//    return status;
 
-    return status;
+    return true;
 }
 
-const char* sim_cli_getOutput(int which)
+//--------------------------------------------------------//
+const char* sim_cli_GetOutput(int which)
 {
     if(which < NUM_PRINT_BUF)
     {
@@ -313,8 +268,7 @@ const char* sim_cli_getOutput(int which)
     }
 }
 
-/* ======================= MODULE SIMULATED FUNCTIONS =============== */
-
+//--------------------------------------------------------//
 uint16_t serialWriteLine(char* pData, uint16_t serialIndex)
 {
     (void)serialIndex;
@@ -322,7 +276,7 @@ uint16_t serialWriteLine(char* pData, uint16_t serialIndex)
     //printf(">>> %s\n", pData);
 
     // Store latest string.
-    strncpy(s_writeBuff[s_writeBuffIndex], pData, CLI_PRINT_BUF_LENGTH);
+    strncpy(s_writeBuff[s_writeBuffIndex], pData, BUFF_LEN);
 
     // Update index.
     s_writeBuffIndex++;
@@ -331,6 +285,7 @@ uint16_t serialWriteLine(char* pData, uint16_t serialIndex)
     return (uint16_t)strlen(pData);
 }
 
+//--------------------------------------------------------//
 bool readLineInit(int16_t serialIndex, char* lineBuf, uint16_t bufLength, char* historyBuf, uint16_t historyLines)
 {
     (void)serialIndex;
@@ -342,77 +297,3 @@ bool readLineInit(int16_t serialIndex, char* lineBuf, uint16_t bufLength, char* 
 
     return true;
 }
-
-bool serialWriteIsBusy(uint16_t serialIndex)
-{
-    (void)serialIndex;
-
-    return false;
-}
-
-bool readLineStart(uint16_t serialIndex, const char* prompt)
-{
-    serialWriteLine(prompt, serialIndex);
-    return true;
-}
-
-char* readLineWait(uint16_t serialIndex)
-{
-    (void)serialIndex;
-
-    if(s_armRead)
-    {
-        s_armRead = false;
-        //printf("<<< %s\n", s_lineBuf);
-        return (char*)s_inputBuff;
-    }
-    else
-    {
-        s_inputBuff[0] = 0;
-        return NULL;
-    }
-}
-
-int16_t readLineGetLineLength(uint16_t serialIndex)
-{
-    (void)serialIndex;
-
-    return (int16_t)strlen(s_inputBuff);
-}
-
-void writeAndLog(bool dolog, uint16_t level, const char* format, ...)
-{
-    (void)dolog;
-    (void)level;
-    (void)format;
-}
-
-void debugLogSetLevel(uint16_t level)
-{
-    s_debugLevel = level;
-}
-
-uint16_t debugLogGetLevel()
-{
-    return s_debugLevel;
-}
-
-void debugLog(uint16_t level, const char* format, ...)
-{
-    if(s_debugLevel > 0 && level <= s_debugLevel)
-    {
-        va_list args;
-        va_start(args, format);
-
-        char buff[100];
-        vsprintf(buff, format, args);
-        printf(buff);
-
-        if(format[strlen(format) - 1] != '\n')
-        {
-            printf("\n");
-        }
-    }
-}
-
-#endif // _TO_PROCESS

@@ -3,43 +3,36 @@
 #define HAL_SIM_H
 
 
+//---------------- Simulator API functions ----------------------//
 
+/// Tickle an input pin.
+/// @param pin
+/// @param state
+void sim_io_injectInput(int pin, bool state);
 
+/// Clear all simulated interrupts.
+void sim_io_clearInterrupts();
 
-#ifdef _TO_PROCESS
+/// Clear all simulated pin states.
+void sim_io_clearInputs();
 
+/// Clear all cached pin states.
+void sim_io_clearOutputs();
 
-/* ======================= SIMULATOR API FUNCTIONS ================== */
+/// Get a cached pin state.
+/// @param pin
+/// @return
+bool sim_io_getOutputPin(int pin);
 
-// Tickle a simulated IO pin.
-void sim_gpio_injectInput(gpioInputPin_t pin, gpioPinState_t state);
+/// Simulated user input from cli.
+/// @param input
+/// @return
+bool sim_cli_InjectInput(const char* input);
 
-// Clear all simulated interrupts.
-void sim_gpio_clearInterrupts();
-
-// Clear all simulated pin states.
-void sim_gpio_clearInputs();
-
-// Clear all cached pin states.
-void sim_gpio_clearOutputs();
-
-// Get a cached pin state.
-bool getGpioOutputPin(gpioOutputPin_t pin);
-
-
-
-
-/* ======================= SIMULATOR API FUNCTIONS ================== */
-
-// Simulated user input from cli.
-bool sim_cli_injectInput(const char* input);
-
-// Get whatever cli module returned to the user.
-const char* sim_cli_getOutput(int which);
-
-#endif // _TO_PROCESS
-
-
+/// Get whatever cli module returned to the user.
+/// @param which
+/// @return
+const char* sim_cli_GetOutput(int which);
 
 
 #endif // HAL_SIM_H

@@ -20,10 +20,6 @@
 /// @return Status.
 status_t common_init(void);
 
-/// Get microseconds since boot time.
-/// @return The usecs.
-uint64_t common_getUsec(void);
-
 /// Set the log level threshhold.
 /// @param level 0=off otherwise only log for <=level.
 /// @return Status.
