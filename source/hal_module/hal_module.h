@@ -9,6 +9,7 @@
 
 //---------------- Public API ----------------------//
 
+// Physical pin counts.
 #define NUM_DIG_INPUTS 16
 #define NUM_DIG_OUTPUTS 16
 #define NUM_ANA_INPUTS 8
@@ -37,66 +38,80 @@ typedef void (*fpTimerInterrupt)(void);
 /// @return Status.
 status_t hal_init(void);
 
-/// Mod_desc.
-/// @param name desc.
+/// Turn interrupts on/off.
+/// @param env On/off.
 /// @return Status.
-status_t hal_enbInterrupts(bool);
+status_t hal_enbInterrupts(bool enb);
+
+/// Run the hardware loop.
+/// @return Status.
+status_t hal_pump(void);
+
+/// Send to the log.
+/// @param txt Text to log.
+/// @return Status.
+status_t hal_log(const char* txt);
+
 
 //---------------- Digital IO Functions -----------------//
 
-// Digital I/O
-/// Mod_desc.
-/// @param name desc.
+/// Register for digital input interrupt.
+/// @param fp Callback function.
 /// @return Status.
 status_t hal_regDigInterrupt(fpDigInterrupt fp);
 
-/// Mod_desc.
-/// @param name desc.
+/// Write a digital output.
+/// @param pin Specific pin number.
+/// @param value Value to write.
 /// @return Status.
 status_t hal_writePin(int pin, bool value);
 
-/// Mod_desc.
-/// @param name desc.
+/// Read a digital input.
+/// @param pin Specific pin number.
+/// @param value Where to place the value.
 /// @return Status.
 status_t hal_readPin(int pin, bool* value);
 
 
 //---------------- Analog IO Functions -----------------//
 
-// Analog I/O
-/// Mod_desc.
-/// @param name desc.
+/// Register for analog interrupt.
+/// @param fp Callback function.
 /// @return Status.
 status_t hal_regAnaInterrupt(fpAnaInterrupt fp);
 
-/// Mod_desc.
-/// @param name desc.
+/// Write an analog output.
+/// @param pin Specific pin number.
+/// @param value Value to write.
 /// @return Status.
 status_t hal_writeAna(int channel, uint16_t value);
 
-/// Mod_desc.
-/// @param name desc.
+/// Read an analog input.
+/// @param pin Specific pin number.
+/// @param value Where to place the value.
 /// @return Status.
 status_t hal_readAna(int channel, uint16_t* value);
 
 
 //---------------- Serial Functions -----------------//
 
-// Serial I/O
-/// Mod_desc.
-/// @param name desc.
+/// Open a serial port.
+/// @param channel Specific channel.
 /// @return Status.
-status_t hal_openSer(int channel);
+status_t hal_serOpen(int channel);
 
-/// Mod_desc.
-/// @param name desc.
+/// Read from a serial channel. TODO block?
+/// @param channel Specific channel.
+/// @param buff Data buffer. Will be a zero-terminated string.
+/// @param num Length of buff.
 /// @return Status.
-status_t hal_readSer(int channel, char* buff, int* num);
+status_t hal_serReadLine(int channel, char* buff, int num);
 
-/// Mod_desc.
-/// @param name desc.
+/// Write to a serial channel.
+/// @param channel Specific channel.
+/// @param buff What to send as a zero-terminated string.
 /// @return Status.
-status_t hal_writeSer(int channel, char* buff, int* num);
+status_t hal_serWriteLine(int channel, char* buff);
 
 
 //---------------- Timer Functions -----------------//
@@ -107,13 +122,8 @@ status_t hal_writeSer(int channel, char* buff, int* num);
 /// @return Status.
 status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp);
 
-/// Get number of microseconds since reset.
+/// Get number of microseconds since beginning.
 /// @return Microseconds.
-uint64_t hal_getPerfCtr(void);
-
-/// Reset counter.
-/// @return Microseconds.
-void hal_resetPerfCtr(void);
-
+uint64_t hal_getCurrentUsec(void);
 
 #endif // HAL_MODULE_H

@@ -7,7 +7,31 @@
 #include "hal_sim.h"
 
 
-//---------------- Private API Implementation ---------------//
+
+//---------------- Simulator Implementation ---------------//
+
+#define BUFF_LEN 128
+
+/// Current digital inputs.
+static bool s_digInputs[NUM_DIG_INPUTS]; //TODO index is pin num not enum!
+
+/// Current digital outputs.
+static bool s_digOutputs[NUM_DIG_OUTPUTS]; //TODO index is pin num not enum!
+
+/// Main timer period in msec.
+static int s_timerPeriod;
+
+/// Most recent serial port write.
+static char s_lastSerWrite[BUFF_LEN];
+
+/// Next simulated serial read.
+static char s_nextSerRead[BUFF_LEN];
+
+/// Most recent log write.
+static char s_lastLogWrite[BUFF_LEN];
+
+
+//---------------- API Implementation ---------------------//
 
 /// Registered client callback.
 static fpDigInterrupt s_digInterrupt;
@@ -18,31 +42,8 @@ static fpAnaInterrupt s_anaInterrupt;
 /// Registered client callback.
 static fpTimerInterrupt s_timerInterrupt;
 
-/// Interrupts enabled?
+/// Interrupts enable on/off.
 static bool s_enbInterrupts;
-
-
-//---------------- Private Simulator Implementation ---------------//
-
-/// For calculating durations.
-static uint64_t s_perfCtr;
-
-//// Input pin info. Used for normal and interrupt inputs.
-//typedef struct
-//{
-//    bool state;
-//    fpDigInterrupt fpCB;
-//} digInput_t;
-
-static bool s_digInputs[NUM_DIG_INPUTS];
-
-static bool s_digOutputs[NUM_DIG_OUTPUTS];
-
-static int s_timerPeriod;
-
-
-//---------------- Public API Implementation -------------//
-
 
 //--------------------------------------------------------//
 status_t hal_init(void)
@@ -55,6 +56,10 @@ status_t hal_init(void)
     s_timerInterrupt = NULL;
     s_timerPeriod = 0;
   
+    memset(s_lastSerWrite, 0x00, sizeof(s_lastSerWrite));
+    memset(s_nextSerRead, 0x00, sizeof(s_nextSerRead));
+    memset(s_lastLogWrite, 0x00, sizeof(s_lastLogWrite));
+
     return stat;
 }
 
@@ -66,6 +71,20 @@ status_t hal_enbInterrupts(bool enb)
     s_enbInterrupts = enb;
 
     return stat;
+}
+
+//--------------------------------------------------------//
+status_t hal_pump() //TODO
+{
+    status_t stat = STATUS_OK;
+
+    return stat;
+}
+
+//--------------------------------------------------------//
+status_t hal_log(const char* txt)
+{
+    sprintf(s_lastLogWrite, "%s\n", txt);
 }
 
 //--------------------------------------------------------//
@@ -138,7 +157,7 @@ status_t hal_readAnalog(int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_openSer(int channel)
+status_t hal_serOpen(int channel)
 {
     (void)channel;
 
@@ -148,39 +167,43 @@ status_t hal_openSer(int channel)
 }
 
 //--------------------------------------------------------//
-status_t hal_readSer(int channel, char* buff, int* num)
+status_t hal_serReadLine(int channel, char* buff, int num)
 {
+    (void)channel;
+    (void)buff;
+    (void)num;
+
+    strncpy(buff, s_nextSerRead, BUFF_LEN);
+    s_nextSerRead[0] = 0;
+
     status_t stat = STATUS_OK;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_writeSer(int channel, char* buff, int* num)
+status_t hal_serWriteLine(int channel, char* buff)
 {
+    (void)channel;
+    (void)buff;
+
+    strncpy(s_lastSerWrite, buff, BUFF_LEN);
+    s_lastSerWrite[0] = 0;
+
     status_t stat = STATUS_OK;
     
     return stat;    
 }
 
 //--------------------------------------------------------//
-uint64_t hal_getPerfCtr(void)
+uint64_t s_getCurrentUsec(void)
 {
-    // Get current time/count.
     struct timeval tv;
     struct timezone tz;
     gettimeofday(&tv, &tz);
     long usec = tv.tv_sec * 1000000 + tv.tv_usec;
-
-    return usec - s_perfCtr;
+    return usec;
 }
-
-//--------------------------------------------------------//
-void hal_resetPerfCtr(void)
-{
-    s_perfCtr = 0;
-}
-
 
 
 //---------------- Simulator Implementation -------------//
@@ -221,79 +244,20 @@ bool sim_io_getOutputPin(int pin)
     return s_digOutputs[pin];
 }
 
-
-
-///////////////////////// TODO all this below ////////////////////
-// Crude write queue.
-#define BUFF_LEN 128
-#define NUM_PRINT_BUF 20
-static char s_writeBuff[NUM_PRINT_BUF][BUFF_LEN];
-static char* s_inputBuff;//[BUFF_LEN];
-static int s_writeBuffIndex = 0;
-// Synchronize simulated serial read.
-static bool s_armRead = false;
-
 //--------------------------------------------------------//
-bool sim_cli_InjectInput(const char* input)
+const char* sim_getLastSerWrite()
 {
-    // Clear write buffer.
-    memset(s_writeBuff, 0, sizeof(s_writeBuff));
-    s_writeBuffIndex = 0;
-
-    // Copy to where cli lib expects to see it.
-    strcpy(s_inputBuff, input);
-
-    s_armRead = true;
-
-    // Pump it.
-//    bool status = cliInterpreter(0);
-//    return status;
-
-    return true;
+    return s_lastSerWrite;
 }
 
 //--------------------------------------------------------//
-const char* sim_cli_GetOutput(int which)
+const char* sim_getLastLogWrite()
 {
-    if(which < NUM_PRINT_BUF)
-    {
-        int ind = s_writeBuffIndex - which - 1;
-        ind = ind < 0 ? ind + NUM_PRINT_BUF : ind;
-
-        return s_writeBuff[ind];
-    }
-    else
-    {
-        return "Out of range!";
-    }
+    return s_lastLogWrite;
 }
 
 //--------------------------------------------------------//
-uint16_t serialWriteLine(char* pData, uint16_t serialIndex)
+void sim_setNextSerRead(const char* s)
 {
-    (void)serialIndex;
-
-    //printf(">>> %s\n", pData);
-
-    // Store latest string.
-    strncpy(s_writeBuff[s_writeBuffIndex], pData, BUFF_LEN);
-
-    // Update index.
-    s_writeBuffIndex++;
-    s_writeBuffIndex %= NUM_PRINT_BUF;
-
-    return (uint16_t)strlen(pData);
-}
-
-//--------------------------------------------------------//
-bool readLineInit(int16_t serialIndex, char* lineBuf, uint16_t bufLength, char* historyBuf, uint16_t historyLines)
-{
-    (void)serialIndex;
-    (void)bufLength;
-    (void)historyBuf;
-    (void)historyLines;
-
-    s_inputBuff = lineBuf;
-
-    return true;
+    strncpy(s_nextSerRead, s, BUFF_LEN);
 }

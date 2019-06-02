@@ -25,9 +25,9 @@ status_t common_init(void);
 /// @return Status.
 void common_setLogLevel(int level);
 
-/// Maybe log some information. Does not add newline - up to client.
+/// Maybe log some information.
 /// @param level See common_setLogLevel().
 /// @param format Format string followed by varargs.
-void common_debugLog(int level, const char* format, ...);
+void common_log(int level, const char* format, ...);
 
 #endif // COMMON_MODULE_H

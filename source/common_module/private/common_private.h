@@ -6,7 +6,8 @@
 
 #include "common_module.h"
 
-// Items shared in this module only.
+// Items shared only in this module.
+// Nothing right now but you could use for whatever.
 
 
 #endif // COMMON_PRIVATE_H

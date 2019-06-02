@@ -7,14 +7,13 @@
 #include "io_module.h"
 #include "cli_module.h"
 
-// This is a bare bones demonstration application to show the pieces-parts
-// play together.
+// This is a bare bones demonstration application to show how the pieces-parts play together.
 
 
 //---------------- Private --------------------------//
 
 #define CLI_PORT 0
-#define SYS_TICK 10 // msec
+#define SYS_TICK_MSEC 10
 
 /// Status.
 static bool s_running;
@@ -23,16 +22,16 @@ static bool s_running;
 static bool s_relayOn;
 
 /// CLI receive buffer.
-static char s_cliRxBuf[CLI_BUFF_LEN];
+static char s_rxBuf[CLI_BUFF_LEN];
 
 /// CLI send buffer.
-static char s_cliTxBuf[CLI_BUFF_LEN];
-
-/// System tick timer.
-static void s_timerHandler(void);
+static char s_txBuf[CLI_BUFF_LEN];
 
 /// Current tick.
 static int s_tick;
+
+/// System tick timer.
+static void s_timerHandler(void);
 
 /// Input interrupt handler.
 static void s_digInput(digInput_t which, bool value);
@@ -40,17 +39,15 @@ static void s_digInput(digInput_t which, bool value);
 /// Input interrupt handler.
 static void s_anaInput(anaInput_t which, uint16_t value);
 
-
+/// Macro to minimize boilerplate.
 #define CHECKED_FUNC(_stat, _func, ...) \
 { \
     _stat = _func(__VA_ARGS__); \
     if(_stat != STATUS_OK) \
     { \
-        common_debugLog(0, "%s(%d) %s", __FILE__, __LINE__, #_func); \
+        common_log(0, "%s(%d) %s", __FILE__, __LINE__, #_func); \
     } \
 }
-
-// #define eprintf(format, ...) fprintf (stderr, format __VA_OPT__(,) __VA_ARGS__)
 
 
 //---------------- Public API Implementation -------------//
@@ -61,8 +58,8 @@ status_t exec_init(void)
     status_t stat = STATUS_OK;
 
     // Init memory.
-    memset(s_cliRxBuf, 0x00, sizeof(s_cliRxBuf));
-    memset(s_cliTxBuf, 0x00, sizeof(s_cliTxBuf));
+    memset(s_rxBuf, 0x00, sizeof(s_rxBuf));
+    memset(s_txBuf, 0x00, sizeof(s_txBuf));
 
     s_running = false;
     s_relayOn = false;
@@ -76,8 +73,8 @@ status_t exec_init(void)
     CHECKED_FUNC(stat, cli_init);
 
     // Set up all your board-specific stuff.
-    CHECKED_FUNC(stat, hal_regTimerInterrupt, SYS_TICK, s_timerHandler);
-    CHECKED_FUNC(stat, hal_openSer, CLI_PORT);
+    CHECKED_FUNC(stat, hal_regTimerInterrupt, SYS_TICK_MSEC, s_timerHandler);
+    CHECKED_FUNC(stat, hal_serOpen, CLI_PORT);
 
     // Register for input interrupts.
     CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON1, s_digInput);
@@ -85,7 +82,6 @@ status_t exec_init(void)
     CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON3, s_digInput);
     CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH1, s_digInput);
     CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH2, s_digInput);
-
     CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_TEMP, s_anaInput);
     CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_VELOCITY, s_anaInput);
 
@@ -93,7 +89,6 @@ status_t exec_init(void)
     CHECKED_FUNC(stat, io_setDigOutput, DIG_OUT_LED1, DIG_ON);
     CHECKED_FUNC(stat, io_setDigOutput, DIG_OUT_LED2, DIG_OFF);
     CHECKED_FUNC(stat, io_setDigOutput, DIG_OUT_RELAY, DIG_OFF);
-
     CHECKED_FUNC(stat, io_setAnaOutput, ANA_OUT_PRESSURE, 80);
 
     return stat;
@@ -106,16 +101,61 @@ status_t exec_run(void)
 
     // Let her rip!
     hal_enbInterrupts(true);
+    s_running = true;
 
     while(s_running)
     {
-        // do nothing
+        // Forever loop.
     }
+
+    hal_enbInterrupts(false);
 
     return stat;
 }
 
+//--------------------------------------------------------//
+status_t exec_exit(void)
+{
+    status_t stat = STATUS_OK;
+
+    s_running = false;
+    
+    return stat;
+}
+
+
+
 //---------------- Private --------------------------//
+
+//--------------------------------------------------------//
+void s_timerHandler(void)
+{
+    // This arrives every 10 msec.
+    // Do the real work of the application.
+    s_tick++;
+
+    if(s_tick % 50 == 0)
+    {
+        // Poll cli.
+        status_t stat = STATUS_OK;
+
+        CHECKED_FUNC(stat, hal_serReadLine, CLI_PORT, s_rxBuf, CLI_BUFF_LEN);
+
+        if(strlen(s_rxBuf) > 0)
+        {
+            // Got something. Give to cli to handle.
+            CHECKED_FUNC(stat, cli_process, s_rxBuf, s_txBuf);
+            CHECKED_FUNC(stat, hal_serWriteLine, CLI_PORT, s_txBuf);
+        }
+    }
+
+    if(s_tick % 250 == 0)
+    {
+        // Other periodic stuff.
+        s_relayOn = !s_relayOn;
+        io_setDigOutput(DIG_OUT_RELAY, s_relayOn);
+    }
+}
 
 //--------------------------------------------------------//
 void s_digInput(digInput_t which, bool value)
@@ -153,30 +193,4 @@ void s_anaInput(anaInput_t which, uint16_t value)
 {
     (void)which;
     (void)value;
-}
-
-//--------------------------------------------------------//
-void s_timerHandler(void)
-{
-    // Arrives every 10 msec.
-    s_tick++;
-
-    if(s_tick % 50 == 0)
-    {
-        // Poll cli. TODO
-
-
-    }
-
-    if(s_tick % 250 == 0)
-    {
-        // Other stuff.
-        s_relayOn = !s_relayOn;
-        io_setDigOutput(DIG_OUT_RELAY, s_relayOn);
-    }
-
-    if(s_tick >= 1000)
-    {
-        s_running = false;
-    }
 }

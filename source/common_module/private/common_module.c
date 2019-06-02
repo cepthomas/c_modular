@@ -15,7 +15,7 @@ status_t common_init(void)
 {
     status_t stat = STATUS_OK;
 
-    common_setLogLevel(0); // off
+    common_setLogLevel(0); // default is off
 
     return stat;
 }

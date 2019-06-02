@@ -35,10 +35,10 @@ static digInput_t s_pinToInput(int pin);
 /// @return The converted value or -1 if invalid.
 static int s_outputToPin(digOutput_t dout);
 
-///// Map physical pin to logical.
-///// @param pin Specific pin.
-///// @return The converted value or DIG_OUT_END if invalid.
-//static digOutput_t s_pinToOutput(int pin);
+/// Map physical pin to logical.
+/// @param pin Specific pin.
+/// @return The converted value or DIG_OUT_END if invalid.
+static digOutput_t s_pinToOutput(int pin);
 
 
 //---------------- Public API Implementation -------------//
@@ -51,6 +51,8 @@ status_t io_init(void)
     memset(s_digInputCallbacks, 0x00, sizeof(s_digInputCallbacks));
 
     stat = hal_regDigInterrupt(s_digInterruptHandler);
+
+    s_pinToOutput(1); // just to shut up compiler
 
     return stat;
 }
@@ -100,7 +102,7 @@ status_t io_getDigInput(digInput_t which, bool* value)
 
     if(pin != -1)
     {
-        stat = hal_readPin(which, value);
+        stat = hal_readPin(pin, value);
     }
     else
     {
@@ -132,6 +134,7 @@ void s_digInterruptHandler(int which, bool value)
 
 //------ Translation functions. One of many ways to do this depending on specific application.
 
+//--------------------------------------------------------//
 int s_inputToPin(digInput_t din)
 {
     int pin = -1;
@@ -149,6 +152,7 @@ int s_inputToPin(digInput_t din)
     return pin;    
 }
 
+//--------------------------------------------------------//
 digInput_t s_pinToInput(int pin)
 {
     digInput_t din = DIG_IN_END;
@@ -166,6 +170,7 @@ digInput_t s_pinToInput(int pin)
     return din;
 }
 
+//--------------------------------------------------------//
 int s_outputToPin(digOutput_t dout)
 {
     int pin = -1;
@@ -181,17 +186,18 @@ int s_outputToPin(digOutput_t dout)
     return pin;    
 }
 
-//digOutput_t s_pinToOutput(int pin)
-//{
-//    digOutput_t dout = DIG_OUT_END;
+//--------------------------------------------------------//
+digOutput_t s_pinToOutput(int pin)
+{
+   digOutput_t dout = DIG_OUT_END;
 
-//    switch(pin)
-//    {
-//        case 1: dout = DIG_OUT_LED1; break;
-//        case 3: dout = DIG_OUT_LED2; break;
-//        case 6: dout = DIG_OUT_RELAY; break;
-//        default: dout = DIG_OUT_END;   break;
-//    }
+   switch(pin)
+   {
+       case 1: dout = DIG_OUT_LED1; break;
+       case 3: dout = DIG_OUT_LED2; break;
+       case 6: dout = DIG_OUT_RELAY; break;
+       default: dout = DIG_OUT_END;   break;
+   }
     
-//    return dout;
-//}
+   return dout;
+}

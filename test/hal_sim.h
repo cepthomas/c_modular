@@ -6,8 +6,8 @@
 //---------------- Simulator API functions ----------------------//
 
 /// Tickle an input pin.
-/// @param pin
-/// @param state
+/// @param pin Specific pin number.
+/// @param state What to set it to.
 void sim_io_injectInput(int pin, bool state);
 
 /// Clear all simulated interrupts.
@@ -20,19 +20,20 @@ void sim_io_clearInputs();
 void sim_io_clearOutputs();
 
 /// Get a cached pin state.
-/// @param pin
-/// @return
+/// @param pin Specific pin number.
+/// @return The value.
 bool sim_io_getOutputPin(int pin);
 
-/// Simulated user input from cli.
-/// @param input
-/// @return
-bool sim_cli_InjectInput(const char* input);
+/// Get the most recent serial port write.
+/// @return The text sent.
+const char* sim_getLastSerWrite();
 
-/// Get whatever cli module returned to the user.
-/// @param which
-/// @return
-const char* sim_cli_GetOutput(int which);
+/// Get the most recent log write.
+/// @return The text logged.
+const char* sim_getLastLogWrite();
 
+/// Preload the next simulated serial read.
+/// @param pin The text.
+void sim_setNextSerRead(const char* s);
 
 #endif // HAL_SIM_H

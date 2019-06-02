@@ -49,6 +49,24 @@ status_t hal_enbInterrupts(bool enb)
 }
 
 //--------------------------------------------------------//
+status_t hal_pump()
+{
+    status_t stat = STATUS_OK;
+
+    return stat;
+}
+
+//--------------------------------------------------------//
+status_t hal_log(const char* txt)
+{
+    status_t stat = STATUS_OK;
+
+    printf("%s", txt);
+
+    return stat;
+}
+
+//--------------------------------------------------------//
 status_t hal_regDigInterrupt(fpDigInterrupt fp)
 {
     status_t stat = STATUS_OK;
@@ -57,7 +75,6 @@ status_t hal_regDigInterrupt(fpDigInterrupt fp)
 
     return stat;
 }
-
 
 //--------------------------------------------------------//
 status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
@@ -82,14 +99,9 @@ status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp)
 }
 
 //--------------------------------------------------------//
-uint64_t hal_getPerfCtr(void)
+uint64_t hal_getCurrentUsec(void)
 {
     return 999;
-}
-
-//--------------------------------------------------------//
-void hal_resetPerfCtr(void)
-{
 }
 
 //--------------------------------------------------------//
@@ -139,7 +151,7 @@ status_t hal_readAnalog(int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_openSer(int channel)
+status_t hal_serOpen(int channel)
 {
     (void)channel;
 
@@ -149,7 +161,7 @@ status_t hal_openSer(int channel)
 }
 
 //--------------------------------------------------------//
-status_t hal_readSer(int channel, char* buff, int* num)
+status_t hal_serReadLine(int channel, char* buff, int num)
 {
     (void)channel;
     (void)buff;
@@ -161,11 +173,10 @@ status_t hal_readSer(int channel, char* buff, int* num)
 }
 
 //--------------------------------------------------------//
-status_t hal_writeSer(int channel, char* buff, int* num)
+status_t hal_serWriteLine(int channel, char* buff)
 {
     (void)channel;
     (void)buff;
-    (void)num;
 
     status_t stat = STATUS_OK;
     

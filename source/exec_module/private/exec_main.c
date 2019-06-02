@@ -2,7 +2,8 @@
 #include "exec_module.h"
 
 
-/// Main entry. Process args and start system.
+/// Main entry for the real application.
+/// Process args and start system.
 /// @param argc How many args
 /// @param argv The args
 /// @return Exit code
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
     if (showUsage)
     {
         // Command line arguments were no good, print a usage message and exit.
-        printf("appname [opts] filename\n");
+        printf("c-modular demo [opts] filename\n");
         printf("   -x: do something\n");
         printf("   filename: the filename or uri\n");
         ret = 1;
@@ -36,6 +37,7 @@ int main(int argc, char* argv[])
             // Blocks forever.
             if(exec_run() != STATUS_OK)
             {
+                // Bad thing happened.
                 ret = 3;
             }
         }
