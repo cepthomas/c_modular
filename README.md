@@ -19,32 +19,33 @@ and adherence to convention but we're all pros here, right?
 A module is simply a subdir that follows this pattern:
 ```
 source
-\---example_module
-    |   example_module.h
+\---abc_module
+    |   abc_module.h
     |   
     \---private
-            example_impl.c
-            example_internal.c
+            abc_impl.c
+            abc_internal.c
 ```
 Where:
-- `example_module.h` contains only the minimum public needed by a consumer of this module.
-- `example_impl.c` and `example_internal.c` contain all the code required to do the work.
+- `abc_module.h` contains only the minimum public needed by a consumer of this module.
+- `abc_impl.c` and `abc_internal.c` contain all the code required to do the work.
 
 There are some other conventions:
 All module public functions are of the form:
 ``` C
-int example_myFunc1(args);
-void example_myFunc2(args);
+int abc_myFunc1(args);
+void abc_myFunc2(args);
 ```
-Everything not public is static and looks like:
+Everything not public is private/static and looks like:
 ``` C
-static bool s_myStatus;
-static void s_myPrivateFunc(args);
+static bool p_myStatus;
+static void p_myPrivateFunc(args);
 ```
 
 So from an external POV this barebones example project looks like:
 ```
 source
+main.c
 +---cli_module
 |   |   cli_module.h
 |   \---private
@@ -67,17 +68,17 @@ of the application it is only necessary to replace the implementation of that on
 The test code structure then looks like:
 ```
 test
+    hal_api.c
     hal_sim.c
     hal_sim.h
-    test_all.cpp
+    test_xxx.cpp
     main.cpp
     pnut.h
 ```
 Where:
-- `hal_sim.c` is the simulation implementation of the hal_module from above, in addition to other functionality
-  to support simulation.
-- `hal_sim.h` for other shared/common stuff.
-- `test_all.cpp` contains the actual test suites.
+- `hal_api.c` is the simulation implementation of the hal_module.
+- `hal_sim.c` and `hal_sim.h` are the hooks between the hal_module and the test suites.
+- `test_xxx.cpp` contains the actual test suites.
 - `main.cpp` is the entry point and test executor.
 - `pnut.h` is the unit test framework.
 

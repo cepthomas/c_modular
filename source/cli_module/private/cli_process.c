@@ -70,7 +70,7 @@ status_t cli_process(const char* cmd, const char* resp)
         }
         else
         {
-          stat = STATUS_WARN;
+            stat = STATUS_WARN;
         }
 
         resp = stat == STATUS_OK ? "OK" : "NG";

@@ -20,12 +20,10 @@ INCLUDEPATH += \
 SOURCES += \
     $$SUT_PATH/common_module/private/common_debug.c \
     $$SUT_PATH/common_module/private/common_module.c \
-#    $$SUT_PATH/exec_module/private/exec_main.c \
     $$SUT_PATH/exec_module/private/exec_loop.c \
     $$SUT_PATH/cli_module/private/cli_process.c \
     $$SUT_PATH/io_module/private/io_digital.c \
     $$SUT_PATH/io_module/private/io_analog.c
-#    $$SUT_PATH/hal_module/private/hal_board.c
 
 HEADERS += \
     $$SUT_PATH/common_module/common_module.h \
@@ -38,11 +36,11 @@ HEADERS += \
 SOURCES += \
     hal_sim.c \
     main.cpp \
-    test_all.cpp
-#    test_cli.cpp
-#    test_io.cpp
+    test_exec.cpp \
+    test_io.cpp \
+    test_cli.cpp
 
 
 HEADERS += \
-    pnut.h \
-    hal_sim.h
+    hal_sim.h \
+    pnut.h

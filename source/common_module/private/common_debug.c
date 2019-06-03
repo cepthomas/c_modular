@@ -9,27 +9,27 @@
 
 //---------------- Private --------------------------//
 
-static int s_logLevel = 0;
+static int p_logLevel = 0;
 
-static char s_logBuff[100];
+static char p_logBuff[100];
 
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
 void common_setLogLevel(int level)
 {
-    s_logLevel = level;
+    p_logLevel = level;
 }
 
 //--------------------------------------------------------//
 void common_log(int level, const char* format, ...)
 {
-    if(s_logLevel > 0 && level <= s_logLevel)
+    if(p_logLevel > 0 && level <= p_logLevel)
     {
         va_list args;
         va_start(args, format);
-        vsnprintf(s_logBuff, sizeof(s_logBuff), format, args);
-        hal_log(s_logBuff);
+        vsnprintf(p_logBuff, sizeof(p_logBuff), format, args);
+        hal_log(p_logBuff);
     }
 }
 

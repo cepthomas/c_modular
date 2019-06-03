@@ -14,9 +14,9 @@ INCLUDEPATH += \
     hal_module
 
 SOURCES += \
+    main.c \
     common_module/private/common_debug.c \
     common_module/private/common_module.c \
-    exec_module/private/exec_main.c \
     exec_module/private/exec_loop.c \
     cli_module/private/cli_process.c \
     io_module/private/io_digital.c \

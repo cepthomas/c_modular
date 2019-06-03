@@ -9,13 +9,13 @@
 //---------------- Private --------------------------//
 
 /// Client requested callbacks.
-static fpDigInputCallback s_digInputCallbacks[DIG_IN_END];
+static fpDigInputCallback p_digInputCallbacks[DIG_IN_END];
 
 
 /// Callback for hal generated interrupts.
 /// @param which Specific input number.
 /// @param value The new value.
-static void s_digInterruptHandler(int which, bool value);
+static void p_digInterruptHandler(int which, bool value);
 
 
 //------ Translation functions. One of many ways to do this depending on specific application.
@@ -23,22 +23,22 @@ static void s_digInterruptHandler(int which, bool value);
 /// Map logical to physical pin.
 /// @param din Specific input.
 /// @return The converted value or -1 if invalid.
-static int s_inputToPin(digInput_t din);
+static int p_inputToPin(digInput_t din);
 
 /// Map physical pin to logical.
 /// @param pin Specific pin.
 /// @return The converted value or DIG_IN_END if invalid.
-static digInput_t s_pinToInput(int pin);
+static digInput_t p_pinToInput(int pin);
 
 /// Map logical to physical pin.
 /// @param dout Specific output.
 /// @return The converted value or -1 if invalid.
-static int s_outputToPin(digOutput_t dout);
+static int p_outputToPin(digOutput_t dout);
 
 /// Map physical pin to logical.
 /// @param pin Specific pin.
 /// @return The converted value or DIG_OUT_END if invalid.
-static digOutput_t s_pinToOutput(int pin);
+static digOutput_t p_pinToOutput(int pin);
 
 
 //---------------- Public API Implementation -------------//
@@ -48,11 +48,11 @@ status_t io_init(void)
 {
     status_t stat = STATUS_OK;
 
-    memset(s_digInputCallbacks, 0x00, sizeof(s_digInputCallbacks));
+    memset(p_digInputCallbacks, 0x00, sizeof(p_digInputCallbacks));
 
-    stat = hal_regDigInterrupt(s_digInterruptHandler);
+    stat = hal_regDigInterrupt(p_digInterruptHandler);
 
-    s_pinToOutput(1); // just to shut up compiler
+    p_pinToOutput(1); // just to shut up compiler
 
     return stat;
 }
@@ -64,7 +64,7 @@ status_t io_regDigInputCallback(digInput_t which, fpDigInputCallback fp)
 
     if(which < DIG_IN_END)
     {
-        s_digInputCallbacks[which] = fp;
+        p_digInputCallbacks[which] = fp;
     }
     else
     {
@@ -79,7 +79,7 @@ status_t io_setDigOutput(digOutput_t which, bool value)
 {
     status_t stat = STATUS_OK;
 
-    int pin = s_outputToPin(which);
+    int pin = p_outputToPin(which);
 
     if(pin != -1)
     {
@@ -98,7 +98,7 @@ status_t io_getDigInput(digInput_t which, bool* value)
 {
     status_t stat = STATUS_OK;
 
-    int pin = s_inputToPin(which);
+    int pin = p_inputToPin(which);
 
     if(pin != -1)
     {
@@ -117,16 +117,16 @@ status_t io_getDigInput(digInput_t which, bool* value)
 //---------------- Private --------------------------//
 
 //--------------------------------------------------------//
-void s_digInterruptHandler(int which, bool value)
+void p_digInterruptHandler(int which, bool value)
 {
-    digInput_t din = s_pinToInput(which);
+    digInput_t din = p_pinToInput(which);
 
     if(din != DIG_IN_END)
     {
         // Fire callback for registered client.
-        if(s_digInputCallbacks[which] != NULL)
+        if(p_digInputCallbacks[which] != NULL)
         {
-            s_digInputCallbacks[which](din, value);
+            p_digInputCallbacks[which](din, value);
         }
     }
     //else error???
@@ -135,7 +135,7 @@ void s_digInterruptHandler(int which, bool value)
 //------ Translation functions. One of many ways to do this depending on specific application.
 
 //--------------------------------------------------------//
-int s_inputToPin(digInput_t din)
+int p_inputToPin(digInput_t din)
 {
     int pin = -1;
 
@@ -153,7 +153,7 @@ int s_inputToPin(digInput_t din)
 }
 
 //--------------------------------------------------------//
-digInput_t s_pinToInput(int pin)
+digInput_t p_pinToInput(int pin)
 {
     digInput_t din = DIG_IN_END;
 
@@ -171,7 +171,7 @@ digInput_t s_pinToInput(int pin)
 }
 
 //--------------------------------------------------------//
-int s_outputToPin(digOutput_t dout)
+int p_outputToPin(digOutput_t dout)
 {
     int pin = -1;
 
@@ -187,7 +187,7 @@ int s_outputToPin(digOutput_t dout)
 }
 
 //--------------------------------------------------------//
-digOutput_t s_pinToOutput(int pin)
+digOutput_t p_pinToOutput(int pin)
 {
    digOutput_t dout = DIG_OUT_END;
 

@@ -16,6 +16,7 @@
 //---------------- Public API Implementation -------------//
 
 
+//--------------------------------------------------------//
 status_t io_regAnaInputCallback(anaInput_t which, fpAnaInputCallback fp)
 {
     (void)which;
@@ -24,6 +25,7 @@ status_t io_regAnaInputCallback(anaInput_t which, fpAnaInputCallback fp)
     return STATUS_OK;
 }
 
+//--------------------------------------------------------//
 status_t io_setAnaOutput(anaOutput_t which, uint16_t value)
 {
     (void)which;
@@ -32,6 +34,7 @@ status_t io_setAnaOutput(anaOutput_t which, uint16_t value)
     return STATUS_OK;
 }
 
+//--------------------------------------------------------//
 status_t io_getAnaInput(anaInput_t which, uint16_t* value)
 {
     (void)which;

@@ -16,28 +16,28 @@
 #define SYS_TICK_MSEC 10
 
 /// Status.
-static bool s_running;
+static bool p_running;
 
 /// Status.
-static bool s_relayOn;
+static bool p_relayOn;
 
 /// CLI receive buffer.
-static char s_rxBuf[CLI_BUFF_LEN];
+static char p_rxBuf[CLI_BUFF_LEN];
 
 /// CLI send buffer.
-static char s_txBuf[CLI_BUFF_LEN];
+static char p_txBuf[CLI_BUFF_LEN];
 
 /// Current tick.
-static int s_tick;
+static int p_tick;
 
 /// System tick timer.
-static void s_timerHandler(void);
+static void p_timerHandler(void);
 
 /// Input interrupt handler.
-static void s_digInput(digInput_t which, bool value);
+static void p_digInput(digInput_t which, bool value);
 
 /// Input interrupt handler.
-static void s_anaInput(anaInput_t which, uint16_t value);
+static void p_anaInput(anaInput_t which, uint16_t value);
 
 /// Macro to minimize boilerplate.
 #define CHECKED_FUNC(_stat, _func, ...) \
@@ -58,12 +58,12 @@ status_t exec_init(void)
     status_t stat = STATUS_OK;
 
     // Init memory.
-    memset(s_rxBuf, 0x00, sizeof(s_rxBuf));
-    memset(s_txBuf, 0x00, sizeof(s_txBuf));
+    memset(p_rxBuf, 0x00, sizeof(p_rxBuf));
+    memset(p_txBuf, 0x00, sizeof(p_txBuf));
 
-    s_running = false;
-    s_relayOn = false;
-    s_tick = 0;
+    p_running = false;
+    p_relayOn = false;
+    p_tick = 0;
 
     // Init modules.
     common_setLogLevel(1);
@@ -73,17 +73,17 @@ status_t exec_init(void)
     CHECKED_FUNC(stat, cli_init);
 
     // Set up all your board-specific stuff.
-    CHECKED_FUNC(stat, hal_regTimerInterrupt, SYS_TICK_MSEC, s_timerHandler);
+    CHECKED_FUNC(stat, hal_regTimerInterrupt, SYS_TICK_MSEC, p_timerHandler);
     CHECKED_FUNC(stat, hal_serOpen, CLI_PORT);
 
     // Register for input interrupts.
-    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON1, s_digInput);
-    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON2, s_digInput);
-    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON3, s_digInput);
-    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH1, s_digInput);
-    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH2, s_digInput);
-    CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_TEMP, s_anaInput);
-    CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_VELOCITY, s_anaInput);
+    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON1, p_digInput);
+    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON2, p_digInput);
+    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_BUTTON3, p_digInput);
+    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH1, p_digInput);
+    CHECKED_FUNC(stat, io_regDigInputCallback, DIG_IN_SWITCH2, p_digInput);
+    CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_TEMP, p_anaInput);
+    CHECKED_FUNC(stat, io_regAnaInputCallback, ANA_IN_VELOCITY, p_anaInput);
 
     // Init outputs.
     CHECKED_FUNC(stat, io_setDigOutput, DIG_OUT_LED1, DIG_ON);
@@ -101,9 +101,9 @@ status_t exec_run(void)
 
     // Let her rip!
     hal_enbInterrupts(true);
-    s_running = true;
+    p_running = true;
 
-    while(s_running)
+    while(p_running)
     {
         // Forever loop.
     }
@@ -118,7 +118,7 @@ status_t exec_exit(void)
 {
     status_t stat = STATUS_OK;
 
-    s_running = false;
+    p_running = false;
     
     return stat;
 }
@@ -128,37 +128,37 @@ status_t exec_exit(void)
 //---------------- Private --------------------------//
 
 //--------------------------------------------------------//
-void s_timerHandler(void)
+void p_timerHandler(void)
 {
     // This arrives every 10 msec.
     // Do the real work of the application.
-    s_tick++;
+    p_tick++;
 
-    if(s_tick % 50 == 0)
+    if(p_tick % 50 == 0)
     {
         // Poll cli.
         status_t stat = STATUS_OK;
 
-        CHECKED_FUNC(stat, hal_serReadLine, CLI_PORT, s_rxBuf, CLI_BUFF_LEN);
+        CHECKED_FUNC(stat, hal_serReadLine, CLI_PORT, p_rxBuf, CLI_BUFF_LEN);
 
-        if(strlen(s_rxBuf) > 0)
+        if(strlen(p_rxBuf) > 0)
         {
             // Got something. Give to cli to handle.
-            CHECKED_FUNC(stat, cli_process, s_rxBuf, s_txBuf);
-            CHECKED_FUNC(stat, hal_serWriteLine, CLI_PORT, s_txBuf);
+            CHECKED_FUNC(stat, cli_process, p_rxBuf, p_txBuf);
+            CHECKED_FUNC(stat, hal_serWriteLine, CLI_PORT, p_txBuf);
         }
     }
 
-    if(s_tick % 250 == 0)
+    if(p_tick % 250 == 0)
     {
         // Other periodic stuff.
-        s_relayOn = !s_relayOn;
-        io_setDigOutput(DIG_OUT_RELAY, s_relayOn);
+        p_relayOn = !p_relayOn;
+        io_setDigOutput(DIG_OUT_RELAY, p_relayOn);
     }
 }
 
 //--------------------------------------------------------//
-void s_digInput(digInput_t which, bool value)
+void p_digInput(digInput_t which, bool value)
 {
     (void)which;
     (void)value;
@@ -189,7 +189,7 @@ void s_digInput(digInput_t which, bool value)
 }
 
 //--------------------------------------------------------//
-void s_anaInput(anaInput_t which, uint16_t value)
+void p_anaInput(anaInput_t which, uint16_t value)
 {
     (void)which;
     (void)value;

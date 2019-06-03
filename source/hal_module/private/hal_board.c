@@ -10,16 +10,16 @@
 //---------------- Private --------------------------//
 
 /// Registered client callback.
-static fpDigInterrupt s_digInterrupt;
+static fpDigInterrupt p_digInterrupt;
 
 /// Registered client callback.
-static fpAnaInterrupt s_anaInterrupt;
+static fpAnaInterrupt p_anaInterrupt;
 
 /// Registered client callback.
-static fpTimerInterrupt s_timerInterrupt;
+static fpTimerInterrupt p_timerInterrupt;
 
 /// Interrupts enabled?
-static bool s_enbInterrupts;
+static bool p_enbInterrupts;
 
 
 //---------------- Public API Implementation -------------//
@@ -30,10 +30,10 @@ status_t hal_init(void)
 {
     status_t stat = STATUS_OK;
 
-    s_enbInterrupts = false;
-    s_digInterrupt = NULL;
-    s_anaInterrupt = NULL;
-    s_timerInterrupt = NULL;
+    p_enbInterrupts = false;
+    p_digInterrupt = NULL;
+    p_anaInterrupt = NULL;
+    p_timerInterrupt = NULL;
   
     return stat;
 }
@@ -43,15 +43,7 @@ status_t hal_enbInterrupts(bool enb)
 {
     status_t stat = STATUS_OK;
 
-    s_enbInterrupts = enb;
-
-    return stat;
-}
-
-//--------------------------------------------------------//
-status_t hal_pump()
-{
-    status_t stat = STATUS_OK;
+    p_enbInterrupts = enb;
 
     return stat;
 }
@@ -71,7 +63,7 @@ status_t hal_regDigInterrupt(fpDigInterrupt fp)
 {
     status_t stat = STATUS_OK;
 
-    s_digInterrupt = fp;
+    p_digInterrupt = fp;
 
     return stat;
 }
@@ -81,7 +73,7 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 {
     status_t stat = STATUS_OK;
 
-    s_anaInterrupt = fp;
+    p_anaInterrupt = fp;
 
     return stat;
 }
@@ -93,7 +85,7 @@ status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp)
 
     status_t stat = STATUS_OK;
 
-    s_timerInterrupt = fp;
+    p_timerInterrupt = fp;
 
     return stat;
 }

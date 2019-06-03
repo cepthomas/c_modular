@@ -43,10 +43,6 @@ status_t hal_init(void);
 /// @return Status.
 status_t hal_enbInterrupts(bool enb);
 
-/// Run the hardware loop.
-/// @return Status.
-status_t hal_pump(void);
-
 /// Send to the log.
 /// @param txt Text to log.
 /// @return Status.
