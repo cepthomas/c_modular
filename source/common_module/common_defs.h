@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+// Not really module specific.
+
 /// General status value.
 typedef enum
 {

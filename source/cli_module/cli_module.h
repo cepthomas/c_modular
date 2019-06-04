@@ -9,6 +9,7 @@
 
 //---------------- Public API ----------------------//
 
+
 //---------------- Definitions ---------------------//
 
 #define CLI_BUFF_LEN 128
@@ -24,7 +25,7 @@ status_t cli_init(void);
 /// @param cmd Command to process.
 /// @param resp Result of the operation.
 /// @return Status.
-status_t cli_process(const char* cmd, const char* resp);
+status_t cli_process(const char* cmd, char* resp);
 
 
 #endif // CLI_MODULE_H

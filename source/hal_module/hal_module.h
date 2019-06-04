@@ -9,9 +9,8 @@
 
 //---------------- Public API ----------------------//
 
-// Physical pin counts.
-#define NUM_DIG_INPUTS 16
-#define NUM_DIG_OUTPUTS 16
+// Physical IO counts.
+#define NUM_DIG_PINS 16
 #define NUM_ANA_INPUTS 8
 #define NUM_ANA_OUTPUTS 2
 
@@ -21,12 +20,12 @@
 /// Type: Function pointer for registration of digital input change callbacks.
 /// @param which The digital input whose state has changed.
 /// @param value The new state of the input.
-typedef void (*fpDigInterrupt)(int which, bool value);
+typedef void (*fpDigInterrupt)(unsigned int which, bool value);
 
 /// Type: Function pointer for registration of analog input change callbacks.
 /// @param which The analog input whose state has changed.
 /// @param value The new value of the input.
-typedef void (*fpAnaInterrupt)(int channel, uint16_t value);
+typedef void (*fpAnaInterrupt)(unsigned int channel, uint16_t value);
 
 /// Type: Function pointer for handling of timer ticks.
 typedef void (*fpTimerInterrupt)(void);
@@ -60,13 +59,13 @@ status_t hal_regDigInterrupt(fpDigInterrupt fp);
 /// @param pin Specific pin number.
 /// @param value Value to write.
 /// @return Status.
-status_t hal_writePin(int pin, bool value);
+status_t hal_writeDig(unsigned int pin, bool value);
 
-/// Read a digital input.
+/// Read a digital input or output.
 /// @param pin Specific pin number.
 /// @param value Where to place the value.
 /// @return Status.
-status_t hal_readPin(int pin, bool* value);
+status_t hal_readDig(unsigned int pin, bool* value);
 
 
 //---------------- Analog IO Functions -----------------//
@@ -80,13 +79,13 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp);
 /// @param pin Specific pin number.
 /// @param value Value to write.
 /// @return Status.
-status_t hal_writeAna(int channel, uint16_t value);
+status_t hal_writeAna(unsigned int channel, uint16_t value);
 
 /// Read an analog input.
 /// @param pin Specific pin number.
 /// @param value Where to place the value.
 /// @return Status.
-status_t hal_readAna(int channel, uint16_t* value);
+status_t hal_readAna(unsigned int channel, uint16_t* value);
 
 
 //---------------- Serial Functions -----------------//
@@ -94,20 +93,20 @@ status_t hal_readAna(int channel, uint16_t* value);
 /// Open a serial port.
 /// @param channel Specific channel.
 /// @return Status.
-status_t hal_serOpen(int channel);
+status_t hal_serOpen(unsigned int channel);
 
-/// Read from a serial channel. TODO block?
+/// Read from a serial channel.
 /// @param channel Specific channel.
 /// @param buff Data buffer. Will be a zero-terminated string.
 /// @param num Length of buff.
 /// @return Status.
-status_t hal_serReadLine(int channel, char* buff, int num);
+status_t hal_serReadLine(unsigned int channel, char* buff, int num);
 
 /// Write to a serial channel.
 /// @param channel Specific channel.
 /// @param buff What to send as a zero-terminated string.
 /// @return Status.
-status_t hal_serWriteLine(int channel, char* buff);
+status_t hal_serWriteLine(unsigned int channel, char* buff);
 
 
 //---------------- Timer Functions -----------------//
@@ -116,7 +115,7 @@ status_t hal_serWriteLine(int channel, char* buff);
 /// @param period How oftern in msec.
 /// @param fp Callback function.
 /// @return Status.
-status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp);
+status_t hal_regTimerInterrupt(unsigned int period, fpTimerInterrupt fp);
 
 /// Get number of microseconds since beginning.
 /// @return Microseconds.

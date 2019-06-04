@@ -7,12 +7,13 @@
 extern "C"
 {
 #include "exec_module.h"
-// #include "common_module.h"
-// #include "hal_module.h"
-// #include "io_module.h"
-// #include "cli_module.h"
+#include "io_module.h"
 #include "hal_sim.h"
 }
+
+
+/// Helper macro.
+#define DO_TICKS(num) for(int i = 0; i < num; i++) { hal_sim_timerTick(); }
 
 
 
@@ -45,7 +46,7 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
 
 
 //--------------------------------------------------------------//
-UT_SUITE(CMOD_EXEC_LOOP, "Test the periodic processing.")
+UT_SUITE(CMOD_EXEC_LOOP, "Test the dynamic periodic processing.")
 {
     status_t status = STATUS_OK;
 
@@ -53,9 +54,26 @@ UT_SUITE(CMOD_EXEC_LOOP, "Test the periodic processing.")
     status = exec_init();
     UT_EQUAL(status, STATUS_OK);
 
+    // We can't actually call exec_run() without setting up some worker threads (another day)
+    // so we will just pretend we are that loop.
+    hal_sim_clearDigPins();
 
-    /////////// stuff here ///////////////
+    hal_enbInterrupts(true);
+    hal_sim_setNextSerRead("SET LED1");
 
+    DO_TICKS(49);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_LED1), false);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_RELAY), false);
+
+    DO_TICKS(3);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_LED1), true);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_RELAY), false);
+
+    DO_TICKS(200);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_LED1), true);
+    UT_EQUAL(hal_sim_getDigPin(DIG_OUT_RELAY), true);
+
+    hal_enbInterrupts(false);
 
     // Exit.
     status = exec_exit();

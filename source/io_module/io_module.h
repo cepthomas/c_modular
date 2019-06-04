@@ -16,44 +16,49 @@
 
 //---------------- Definitions ---------------------//
 
+// Enums to abstract purpose from physical.
+// Here the assigned values are the pin numbers but you would be more clever
+// in a real application.
+
+/// Digital inputs. 
 typedef enum
 {
-    DIG_IN_BUTTON1,
-    DIG_IN_BUTTON2,
-    DIG_IN_BUTTON3,
-    DIG_IN_SWITCH1,
-    DIG_IN_SWITCH2,
+    DIG_IN_BUTTON1 = 1,
+    DIG_IN_BUTTON2 = 2,
+    DIG_IN_BUTTON3 = 3,
+    DIG_IN_SWITCH1 = 4,
+    DIG_IN_SWITCH2 = 5,
     DIG_IN_END
 } digInput_t;
 
+/// Digital inputs.
 typedef enum
 {
-    DIG_OUT_LED1,
-    DIG_OUT_LED2,
-    DIG_OUT_RELAY,
+    DIG_OUT_LED1  = 10,
+    DIG_OUT_LED2  = 11,
+    DIG_OUT_RELAY = 12,
     DIG_OUT_END
 } digOutput_t;
 
+/// Digital inputs.
 typedef enum
 {
-    ANA_IN_TEMP,
-    ANA_IN_VELOCITY,
+    ANA_IN_TEMP = 20,
+    ANA_IN_VELOCITY = 21,
     ANA_IN_END
 } anaInput_t;
 
+/// Digital inputs.
 typedef enum
 {
-    ANA_OUT_PRESSURE,
+    ANA_OUT_PRESSURE = 18,
     ANA_OUT_END
 } anaOutput_t;
 
 
-// Helpers
+// For readability.
 #define DIG_ON true
 #define DIG_OFF false
-
-
-//---------------- Functions ---------------------//
 
 /// Type: Function pointer for registration of digital input changes.
 /// @param which The input whose state has changed.
@@ -65,6 +70,8 @@ typedef void (*fpDigInputCallback)(digInput_t which, bool value);
 /// @param value The new value of the input.
 typedef void (*fpAnaInputCallback)(anaInput_t which, uint16_t value);
 
+
+//---------------- Functions ---------------------//
 
 /// Initialize the module.
 /// @return Status.
@@ -87,6 +94,12 @@ status_t io_setDigOutput(digOutput_t which, bool value);
 /// @param value Where to put the value.
 /// @return Status.
 status_t io_getDigInput(digInput_t which, bool* value);
+
+/// Get the value of a specific digital output.
+/// @param which Specific output number.
+/// @param value Where to put the value.
+/// @return Status.
+status_t io_getDigOutput(digOutput_t which, bool* value);
 
 /// Client registers an analog callback.
 /// @param which Specific input number.

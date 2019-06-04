@@ -79,7 +79,7 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_regTimerInterrupt(int when, fpTimerInterrupt fp)
+status_t hal_regTimerInterrupt(unsigned int when, fpTimerInterrupt fp)
 {
     (void)when;
 
@@ -97,7 +97,7 @@ uint64_t hal_getCurrentUsec(void)
 }
 
 //--------------------------------------------------------//
-status_t hal_writePin(int pin, bool value)
+status_t hal_writeDig(unsigned int pin, bool value)
 {
     (void)pin;
     (void)value;
@@ -107,9 +107,8 @@ status_t hal_writePin(int pin, bool value)
     return stat;
 }
 
-
 //--------------------------------------------------------//
-status_t hal_readPin(int pin, bool* value)
+status_t hal_readDig(unsigned int pin, bool* value)
 {
     (void)pin;
     (void)value;
@@ -119,9 +118,8 @@ status_t hal_readPin(int pin, bool* value)
     return stat;
 }
 
-
 //--------------------------------------------------------//
-status_t hal_writeAnalog(int channel, uint16_t value)
+status_t hal_writeAnalog(unsigned int channel, uint16_t value)
 {
     (void)channel;
     (void)value;
@@ -132,7 +130,7 @@ status_t hal_writeAnalog(int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_readAnalog(int channel, uint16_t value)
+status_t hal_readAnalog(unsigned int channel, uint16_t value)
 {
     (void)channel;
     (void)value;
@@ -143,7 +141,7 @@ status_t hal_readAnalog(int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_serOpen(int channel)
+status_t hal_serOpen(unsigned int channel)
 {
     (void)channel;
 
@@ -153,7 +151,7 @@ status_t hal_serOpen(int channel)
 }
 
 //--------------------------------------------------------//
-status_t hal_serReadLine(int channel, char* buff, int num)
+status_t hal_serReadLine(unsigned int channel, char* buff, int num)
 {
     (void)channel;
     (void)buff;
@@ -165,7 +163,7 @@ status_t hal_serReadLine(int channel, char* buff, int num)
 }
 
 //--------------------------------------------------------//
-status_t hal_serWriteLine(int channel, char* buff)
+status_t hal_serWriteLine(unsigned int channel, char* buff)
 {
     (void)channel;
     (void)buff;

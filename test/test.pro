@@ -44,3 +44,6 @@ SOURCES += \
 HEADERS += \
     hal_sim.h \
     pnut.h
+
+# Always good practice - treat warnings as errors. Clean up yo messes.
+QMAKE_CXXFLAGS += -Werror

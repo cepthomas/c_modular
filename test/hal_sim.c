@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "hal_module.h"
-//#include "hal_sim.h"
+#include "hal_sim.h"
 
 
 
@@ -14,14 +14,11 @@
 
 #define BUFF_LEN 128
 
-/// Current digital inputs.
-static bool p_digInputs[NUM_DIG_INPUTS]; //TODO index is pin num not enum!
-
-/// Current digital outputs.
-static bool p_digOutputs[NUM_DIG_OUTPUTS]; //TODO index is pin num not enum!
+/// Current digital pins. Index is pin num not enum.
+static bool p_digPins[NUM_DIG_PINS];
 
 /// Main timer period in msec.
-static int p_timerPeriod;
+static unsigned int p_timerPeriod;
 
 /// Most recent serial port write.
 static char p_lastSerWrite[BUFF_LEN];
@@ -79,7 +76,7 @@ status_t hal_enbInterrupts(bool enb)
 status_t hal_log(const char* txt)
 {
     status_t stat = STATUS_OK;
-    snprintf(p_lastLogWrite, "%s", txt, BUFF_LEN);
+    snprintf(p_lastLogWrite, BUFF_LEN, "%s", txt);
     return stat;
 }
 
@@ -100,7 +97,7 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp)
+status_t hal_regTimerInterrupt(unsigned int period, fpTimerInterrupt fp)
 {
     status_t stat = STATUS_OK;
     p_timerPeriod = period;
@@ -109,33 +106,23 @@ status_t hal_regTimerInterrupt(int period, fpTimerInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_writePin(int pin, bool value)
+status_t hal_writeDig(unsigned int pin, bool value)
 {
     status_t stat = STATUS_OK;
-    p_digOutputs[pin] = value;
+    p_digPins[pin] = value;
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_readPin(int pin, bool* value)
+status_t hal_readDig(unsigned int pin, bool* value)
 {
     status_t stat = STATUS_OK;
-    *value = p_digInputs[pin];
+    *value = p_digPins[pin];
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_writeAnalog(int channel, uint16_t value)
-{
-    (void)channel;
-    (void)value;
-
-    status_t stat = STATUS_OK;
-    return stat;
-}
-
-//--------------------------------------------------------//
-status_t hal_readAnalog(int channel, uint16_t value)
+status_t hal_writeAnalog(unsigned int channel, uint16_t value)
 {
     (void)channel;
     (void)value;
@@ -145,7 +132,17 @@ status_t hal_readAnalog(int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_serOpen(int channel)
+status_t hal_readAnalog(unsigned int channel, uint16_t value)
+{
+    (void)channel;
+    (void)value;
+
+    status_t stat = STATUS_OK;
+    return stat;
+}
+
+//--------------------------------------------------------//
+status_t hal_serOpen(unsigned int channel)
 {
     (void)channel;
 
@@ -154,7 +151,7 @@ status_t hal_serOpen(int channel)
 }
 
 //--------------------------------------------------------//
-status_t hal_serReadLine(int channel, char* buff, int num)
+status_t hal_serReadLine(unsigned int channel, char* buff, int num)
 {
     (void)channel;
     (void)buff;
@@ -167,7 +164,7 @@ status_t hal_serReadLine(int channel, char* buff, int num)
 }
 
 //--------------------------------------------------------//
-status_t hal_serWriteLine(int channel, char* buff)
+status_t hal_serWriteLine(unsigned int channel, char* buff)
 {
     (void)channel;
     (void)buff;
@@ -196,27 +193,18 @@ uint64_t hal_getCurrentUsec(void)
 
 
 //--------------------------------------------------------//
-void hal_sim_clearInputs()
+void hal_sim_clearDigPins()
 {
-    for(int i = 0; i < NUM_DIG_INPUTS; i++)
+    for(int i = 0; i < NUM_DIG_PINS; i++)
     {
-        p_digInputs[i] = false;
+        p_digPins[i] = false;
     }
 }
 
 //--------------------------------------------------------//
-void hal_sim_clearOutputs()
+void hal_sim_injectDigInput(unsigned int pin, bool state)
 {
-    for(int i = 0; i < NUM_DIG_OUTPUTS; i++)
-    {
-        p_digOutputs[i] = false;
-    }
-}
-
-//--------------------------------------------------------//
-void hal_sim_injectInput(int pin, bool state)
-{
-    p_digInputs[pin] = state;
+    p_digPins[pin] = state;
 
     if(p_digInterrupt != NULL)
     {
@@ -225,9 +213,9 @@ void hal_sim_injectInput(int pin, bool state)
 }
 
 //--------------------------------------------------------//
-bool hal_sim_getOutputPin(int pin)
+bool hal_sim_getDigPin(unsigned int pin)
 {
-    return p_digOutputs[pin];
+    return p_digPins[pin];
 }
 
 //--------------------------------------------------------//
@@ -252,4 +240,10 @@ void hal_sim_setNextSerRead(const char* s)
 const char* hal_sim_getNextSerRead(void)
 {
     return p_nextSerRead;
+}
+
+//--------------------------------------------------------//
+void hal_sim_timerTick()
+{
+    p_timerInterrupt();   
 }

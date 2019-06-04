@@ -12,6 +12,25 @@
 
 //---------------- Private --------------------------//
 
+static digOutput_t p_parseDigOutput(const char* dout)
+{
+    digOutput_t ret = DIG_OUT_END;
+
+    if((strcmp("LED1", dout) == 0))
+    {
+        ret = DIG_OUT_LED1;
+    }
+    else if((strcmp("LED2", dout) == 0))
+    {
+        ret = DIG_OUT_LED2;
+    }
+    else if((strcmp("RELAY", dout) == 0))
+    {
+        ret = DIG_OUT_RELAY;
+    }
+
+    return ret;
+}
 
 
 //---------------- Public API Implementation -------------//
@@ -25,7 +44,7 @@ status_t cli_init()
 }
 
 //--------------------------------------------------------//
-status_t cli_process(const char* cmd, const char* resp)
+status_t cli_process(const char* cmd, char* resp)
 {
     (void)cmd;
     (void)resp;
@@ -60,12 +79,12 @@ status_t cli_process(const char* cmd, const char* resp)
         }
         else if((strcmp("SET", args[0]) == 0))
         {
-            digOutput_t dout = DIG_OUT_LED2; // TODO parse from args[1]
+            digOutput_t dout = p_parseDigOutput(args[1]);
             stat = io_setDigOutput(dout, true);
         }
         else if((strcmp("CLR", args[0]) == 0))
         {
-            digOutput_t dout = DIG_OUT_LED2; // TODO parse from args[1]
+            digOutput_t dout = p_parseDigOutput(args[1]);
             stat = io_setDigOutput(dout, false);
         }
         else
@@ -73,7 +92,7 @@ status_t cli_process(const char* cmd, const char* resp)
             stat = STATUS_WARN;
         }
 
-        resp = stat == STATUS_OK ? "OK" : "NG";
+        strcpy(resp, stat == STATUS_OK ? "OK" : "NG");
     }
 
     return stat;

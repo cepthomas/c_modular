@@ -4,9 +4,9 @@
 
 /// Main entry for the real application.
 /// Process args and start system.
-/// @param argc How many args
-/// @param argv The args
-/// @return Exit code
+/// @param argc How many args.
+/// @param argv The args.
+/// @return Standard exit code.
 int main(int argc, char* argv[])
 {
     (void)argv;

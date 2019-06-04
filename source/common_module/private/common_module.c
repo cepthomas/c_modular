@@ -11,6 +11,8 @@
 //---------------- Public API Implementation -------------//
 
 
+/// Initialize the module.
+/// @return Status.
 status_t common_init(void)
 {
     status_t stat = STATUS_OK;

@@ -42,7 +42,9 @@ static bool p_myStatus;
 static void p_myPrivateFunc(args);
 ```
 
-So from an external POV this barebones example project looks like:
+## Example
+A somewhat brain-dead example of a hypothetical embedded C project is provided.
+The application source looks like this:
 ```
 source
 main.c
@@ -65,10 +67,10 @@ main.c
 ```
 Of particular note is the hal_module - the hardware abstraction layer. In order to test the rest
 of the application it is only necessary to replace the implementation of that one module.
+
 The test code structure then looks like:
 ```
 test
-    hal_api.c
     hal_sim.c
     hal_sim.h
     test_xxx.cpp
@@ -76,18 +78,19 @@ test
     pnut.h
 ```
 Where:
-- `hal_api.c` is the simulation implementation of the hal_module.
-- `hal_sim.c` and `hal_sim.h` are the hooks between the hal_module and the test suites.
-- `test_xxx.cpp` contains the actual test suites.
+- `hal_sim.c` and `hal_sim.h` contain:
+    - the simulation implementation of the hal_module.
+    - the hooks between the hal_module and the test suites.
+- `test_xxx.cpp` contains the test suites.
 - `main.cpp` is the entry point and test executor.
 - `pnut.h` is the unit test framework.
 
-## Building
+## Build
 There are two bodies of code here, the application source, and the test executable.
-The former is a pure C99 application which should compile anywhere, even minimal embedded systems. There is a QMake/mingw project
-included to build it. The test code is a C++ application so we can use higher level constructs 
-to create test code that executes the pure C application. There is also a QMake/mingw project
-for that.
+The former is a pure C99 application which should compile anywhere, even minimal embedded 
+systems. There is a QMake/mingw project included to build it. 
+The test code is a C++ application so we can use higher level constructs to create test code 
+that executes the pure C application. There is also a QMake/mingw project for that.
 
 ## License
 https://github.com/cepthomas/c-modular/blob/master/LICENSE
