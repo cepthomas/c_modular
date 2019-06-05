@@ -1,6 +1,6 @@
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 #include "pnut.h"
 
@@ -13,7 +13,7 @@ extern "C"
 
 
 /// Helper macro.
-#define DO_TICKS(num) for(int i = 0; i < num; i++) { hal_sim_timerTick(); }
+#define DO_TICKS(num) for(int i = 0; i < (num); i++) { hal_sim_timerTick(); }
 
 
 
