@@ -1,4 +1,2 @@
-/cmod.sublime*
-/source/source.pro.user
-/test/test.pro.user
-/build*
+/*.sublime*
+/*.user
