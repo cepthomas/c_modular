@@ -15,14 +15,16 @@ INCLUDEPATH += \
     $$SRC_PATH/cli_module \
     $$SRC_PATH/exec_module \
     $$SRC_PATH/io_module \
-    $$SRC_PATH/hal_module
+    $$SRC_PATH/hal_module \
+    $$CBOT_PATH
 
 ### Code being tested.
 SOURCES += \
     $$SRC_PATH/common_module/private/common_debug.c \
     $$SRC_PATH/common_module/private/common_module.c \
-    $$SRC_PATH/exec_module/private/exec_loop.c \
+    $$SRC_PATH/exec_module/private/exec_module.c \
     $$SRC_PATH/cli_module/private/cli_process.c \
+    $$SRC_PATH/io_module/private/io_module.c \
     $$SRC_PATH/io_module/private/io_digital.c \
     $$SRC_PATH/io_module/private/io_analog.c
 

@@ -65,6 +65,13 @@ status_t hal_init(void)
 }
 
 //--------------------------------------------------------//
+status_t hal_destroy(void)
+{
+    status_t stat = STATUS_OK;
+    return stat;
+}
+
+//--------------------------------------------------------//
 status_t hal_enbInterrupts(bool enb)
 {
     status_t stat = STATUS_OK;

@@ -28,4 +28,9 @@ status_t exec_run(void);
 /// @return Status.
 status_t exec_exit(void);
 
+/// Clean up module resources.
+/// @return Status.
+status_t exec_destroy(void);
+
+
 #endif // EXEC_MODULE_H

@@ -47,6 +47,10 @@ status_t hal_enbInterrupts(bool enb);
 /// @return Status.
 status_t hal_log(const char* txt);
 
+/// Clean up module resources.
+/// @return Status.
+status_t hal_destroy(void);
+
 
 //---------------- Digital IO Functions -----------------//
 

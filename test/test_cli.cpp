@@ -42,4 +42,7 @@ UT_SUITE(CMOD_CLI, "Test cli functions.")
     // Exit.
     status = exec_exit();
     UT_EQUAL(status, STATUS_OK);
+
+    status = exec_destroy();
+    UT_EQUAL(status, STATUS_OK);
 }

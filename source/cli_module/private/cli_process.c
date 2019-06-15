@@ -98,6 +98,14 @@ status_t cli_process(const char* cmd, char* resp)
     return stat;
 }
 
+//--------------------------------------------------------//
+status_t cli_destroy(void)
+{
+    status_t stat = STATUS_OK;
+
+    return stat;
+}
+
 
 //---------------- Private --------------------------//
 

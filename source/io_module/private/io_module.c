@@ -1,37 +1,33 @@
 
-#include <stdarg.h>
+#include <string.h>
 
-#include "common_module.h"
-#include "common_private.h"
+#include "hal_module.h"
+#include "io_module.h"
+
+
 
 
 //---------------- Private --------------------------//
 
+extern status_t io_initDig(void);
 
 //---------------- Public API Implementation -------------//
 
-
 //--------------------------------------------------------//
-status_t common_init(void)
+status_t io_init(void)
 {
     status_t stat = STATUS_OK;
 
-    common_setLogLevel(0); // default is off
+    stat = io_initDig();
 
     return stat;
 }
 
 
 //--------------------------------------------------------//
-status_t common_destroy(void)
+status_t io_destroy(void)
 {
     status_t stat = STATUS_OK;
   
     return stat;
 }
-
-
-//---------------- Private --------------------------//
-
-
-

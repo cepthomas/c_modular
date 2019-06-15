@@ -21,18 +21,6 @@ static void p_digInterruptHandler(unsigned int which, bool value);
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_init(void)
-{
-    status_t stat = STATUS_OK;
-
-    memset(p_digInputCallbacks, 0x00, sizeof(p_digInputCallbacks));
-
-    stat = hal_regDigInterrupt(p_digInterruptHandler);
-
-    return stat;
-}
-
-//--------------------------------------------------------//
 status_t io_regDigInputCallback(digInput_t which, fpDigInputCallback fp)
 {
     status_t stat = STATUS_OK;
@@ -103,6 +91,18 @@ status_t io_getDigOutput(digOutput_t which, bool* value)
 
 
 //---------------- Private --------------------------//
+
+//--------------------------------------------------------//
+status_t io_initDig(void)
+{
+    status_t stat = STATUS_OK;
+
+    memset(p_digInputCallbacks, 0x00, sizeof(p_digInputCallbacks));
+
+    stat = hal_regDigInterrupt(p_digInterruptHandler);
+
+    return stat;
+}
 
 //--------------------------------------------------------//
 void p_digInterruptHandler(unsigned int which, bool value)

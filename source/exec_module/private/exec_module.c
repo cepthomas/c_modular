@@ -123,6 +123,18 @@ status_t exec_exit(void)
     return stat;
 }
 
+//--------------------------------------------------------//
+status_t exec_destroy(void)
+{
+    status_t stat = STATUS_OK;
+
+    CHECKED_FUNC(stat, common_destroy);
+    CHECKED_FUNC(stat, hal_destroy);
+    CHECKED_FUNC(stat, io_destroy);
+    CHECKED_FUNC(stat, cli_destroy);
+    
+    return stat;
+}
 
 
 //---------------- Private --------------------------//

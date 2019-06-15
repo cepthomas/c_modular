@@ -119,5 +119,9 @@ status_t io_setAnaOutput(anaOutput_t which, uint16_t value);
 /// @return Status.
 status_t io_getAnaInput(anaInput_t which, uint16_t* value);
 
+/// Clean up module resources.
+/// @return Status.
+status_t io_destroy(void);
+
 
 #endif // IO_MODULE_H

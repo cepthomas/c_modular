@@ -30,4 +30,9 @@ void common_setLogLevel(int level);
 /// @param format Format string followed by varargs.
 void common_log(int level, const char* format, ...);
 
+/// Clean up module resources.
+/// @return Status.
+status_t common_destroy(void);
+
+
 #endif // COMMON_MODULE_H

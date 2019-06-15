@@ -27,5 +27,9 @@ status_t cli_init(void);
 /// @return Status.
 status_t cli_process(const char* cmd, char* resp);
 
+/// Clean up module resources.
+/// @return Status.
+status_t cli_destroy(void);
+
 
 #endif // CLI_MODULE_H
