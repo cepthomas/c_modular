@@ -2,7 +2,7 @@
 #ifndef COMMON_MODULE_H
 #define COMMON_MODULE_H
 
-/// @file
+/// @file Interface to the common module.
 
 
 #include "common_defs.h"

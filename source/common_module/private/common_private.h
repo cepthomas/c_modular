@@ -2,7 +2,7 @@
 #ifndef COMMON_PRIVATE_H
 #define COMMON_PRIVATE_H
 
-/// @file
+/// @file Internal module definitions.
 
 #include "common_module.h"
 

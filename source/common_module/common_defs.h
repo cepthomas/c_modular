@@ -2,13 +2,12 @@
 #ifndef COMMON_DEFS_H
 #define COMMON_DEFS_H
 
-/// @file
+/// @file General defs. Not really module specific.
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-// Not really module specific.
 
 /// General status value.
 typedef enum

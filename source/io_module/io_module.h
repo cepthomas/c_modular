@@ -4,11 +4,10 @@
 
 #include "common_module.h"
 
-/// @file
-
-// This module translates between logical and physical spaces.
-// It's not actually necessary but usually a layer like this is helpful.
-// Otherwise go straight to the hal_module.
+/// @file Interface to the IO module.
+/// This module translates between logical and physical spaces.
+/// It's not actually necessary but usually a layer like this is helpful.
+/// Otherwise go straight to the hal_module.
 
 
 //---------------- Public API ----------------------//
