@@ -11,12 +11,6 @@
 
 //---------------- Public API ----------------------//
 
-
-//---------------- Definitions ---------------------//
-
-
-//---------------- Functions ---------------------//
-
 /// Initialize the module.
 /// @return Status.
 status_t exec_init(void);

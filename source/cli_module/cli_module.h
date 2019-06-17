@@ -9,13 +9,7 @@
 
 //---------------- Public API ----------------------//
 
-
-//---------------- Definitions ---------------------//
-
 #define CLI_BUFF_LEN 128
-
-
-//---------------- Functions ---------------------//
 
 /// Initialize the module.
 /// @return Status.

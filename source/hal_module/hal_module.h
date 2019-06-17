@@ -14,9 +14,6 @@
 #define NUM_ANA_INPUTS 8
 #define NUM_ANA_OUTPUTS 2
 
-
-//---------------- Definitions ---------------------//
-
 /// Type: Function pointer for registration of digital input change callbacks.
 /// @param which The digital input whose state has changed.
 /// @param value The new state of the input.
@@ -30,8 +27,6 @@ typedef void (*fpAnaInterrupt)(unsigned int channel, uint16_t value);
 /// Type: Function pointer for handling of timer ticks.
 typedef void (*fpTimerInterrupt)(void);
 
-
-//---------------- General Functions -----------------//
 
 /// Initialize the module.
 /// @return Status.

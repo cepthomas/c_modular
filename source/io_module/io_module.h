@@ -12,9 +12,6 @@
 
 //---------------- Public API ----------------------//
 
-
-//---------------- Definitions ---------------------//
-
 // Enums to abstract purpose from physical.
 // Here the assigned values are the pin numbers but you would be more clever
 // in a real application.
@@ -68,9 +65,6 @@ typedef void (*fpDigInputCallback)(digInput_t which, bool value);
 /// @param which The input whose state has changed.
 /// @param value The new value of the input.
 typedef void (*fpAnaInputCallback)(anaInput_t which, uint16_t value);
-
-
-//---------------- Functions ---------------------//
 
 /// Initialize the module.
 /// @return Status.

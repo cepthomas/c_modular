@@ -10,12 +10,6 @@
 
 //---------------- Public API ----------------------//
 
-
-//---------------- Definitions ---------------------//
-
-
-//---------------- Functions ---------------------//
-
 /// Initialize the module.
 /// @return Status.
 status_t common_init(void);

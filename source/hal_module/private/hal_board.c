@@ -24,7 +24,6 @@ static bool p_enbInterrupts;
 
 //---------------- Public API Implementation -------------//
 
-
 //--------------------------------------------------------//
 status_t hal_init(void)
 {

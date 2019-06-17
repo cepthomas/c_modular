@@ -1,20 +1,14 @@
 
 #include "io_module.h"
 
-// #include "fsl_const gpio.h"
-// #include "fsl_port.h"
-
-
 // This will be something similar to io_digital.c.
 // Left as an exercise to the student.
-
 
 
 //---------------- Private --------------------------//
 
 
 //---------------- Public API Implementation -------------//
-
 
 //--------------------------------------------------------//
 status_t io_regAnaInputCallback(anaInput_t which, fpAnaInputCallback fp)

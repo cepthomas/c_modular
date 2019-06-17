@@ -1,2 +1,3 @@
 /*.sublime*
-/*.user
+/source/*.user
+/test/*.user
