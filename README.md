@@ -6,7 +6,7 @@ While you have to debug the final package on the target in real time, that is a 
 mundane and algorithmic stuff. To make life easier, it is necessary to separate out the hardware and time
 dependent content from the rest of the application. When they are isolated they can be replaced by components
 more tuned to debugging and testing. While this can be done with all sorts of FOSS I find the majority to be
-too heavy or unecessarily complicated. I just want a simple way to stub IO so end up with a home-brew that
+too heavy or unecessarily complicated. I just want a simple way to stub IO so ended up with a home-brew that
 is used in conjunction with my trusty unit tester [pnut](https://github.com/cepthomas/pnut).
 
 ## Modules
