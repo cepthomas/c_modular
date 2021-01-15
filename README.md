@@ -71,15 +71,15 @@ of the application it is only necessary to replace the implementation of that on
 The test code structure then looks like:
 ```
 test
-    hal_sim.c
-    hal_sim.h
+    hal_board_mock.c
+    hal_board_mock.h
     test_xxx.cpp
     main.cpp
     pnut.h
 ```
 Where:
-- `hal_sim.c` and `hal_sim.h` contain:
-    - the simulation implementation of the hal_module.
+- `hal_board_mock.c` and `hal_board_mock.h` contain:
+    - the simulation implementation of the hal_module. Note that it would make more sense to use something like [fff](https://github.com/meekrosoft/fff).
     - the hooks between the hal_module and the test suites.
 - `test_xxx.cpp` contains the test suites.
 - `main.cpp` is the entry point and test executor.
@@ -88,9 +88,9 @@ Where:
 ## Build
 There are two bodies of code here, the application source, and the test executable.
 The former is a pure C99 application which should compile anywhere, even minimal embedded 
-systems. There is a QMake/mingw project included to build it. 
-The test code is a C++ application so we can use higher level constructs to create test code 
-that executes the pure C application. There is also a QMake/mingw project for that.
+systems. The test is a C++ application so we can use higher level constructs to create code 
+that executes the pure C application.
+A VS Code workspace using mingw and CMake is supplied. Your PATH needs to include this path.
 
 ## License
 https://github.com/cepthomas/c-modular/blob/master/LICENSE
