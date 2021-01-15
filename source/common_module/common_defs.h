@@ -18,4 +18,15 @@ typedef enum
     STATUS_FATAL
 } status_t;
 
+
+/// Macro to minimize boilerplate.
+#define CHECKED_FUNC(_stat, _func, ...) \
+{ \
+    _stat = _func(__VA_ARGS__); \
+    if(_stat != STATUS_OK) \
+    { \
+        common_log(0, "%s(%d) %s", __FILE__, __LINE__, #_func); \
+    } \
+}
+
 #endif // COMMON_DEFS_H

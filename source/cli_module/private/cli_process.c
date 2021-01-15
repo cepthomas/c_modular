@@ -75,7 +75,7 @@ status_t cli_process(const char* cmd, char* resp)
         // Determine action.
         if((strcmp("EXIT", args[0]) == 0))
         {
-            exec_exit();
+            exec_destroy();
         }
         else if((strcmp("SET", args[0]) == 0))
         {

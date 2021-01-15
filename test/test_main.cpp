@@ -4,6 +4,10 @@
 
 #include "pnut.h"
 
+
+int run(int argc, char* argv[]);
+
+
 // Entry point for the tester.
 
 int main()
@@ -15,7 +19,7 @@ int main()
     whichSuites.emplace_back("CMOD");
     tm.RunSuites(whichSuites, 'r');
 
-    printf("Don't forget to run_mem_chk!\n");
+    //printf("TODO Don't forget to run_mem_chk!\n");
 
     return 0;
 }

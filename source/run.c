@@ -2,12 +2,12 @@
 #include "exec_module.h"
 
 
-/// Main entry for the real application.
+/// Main entry for the real application. This would be called from the reset handler.
 /// Process args and start system.
 /// @param argc How many args.
 /// @param argv The args.
 /// @return Standard exit code.
-int main(int argc, char* argv[])
+int run(int argc, char* argv[])
 {
     (void)argv;
 
@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
     for(int i = 1; i < argc; i++)
     {
-        // Do options...
+        // Process options using getopt or similar.
         //const char* carg = argv[i];
     }
 
@@ -35,15 +35,16 @@ int main(int argc, char* argv[])
         if(exec_init() == STATUS_OK)
         {
             // Blocks forever.
-            if(exec_run() != STATUS_OK) //TODO ??
-            {
-                // Bad thing happened.
-                ret = 3;
-            }
+            ret = exec_run();
+
+            // Clean up.
+            exec_destroy();
+            //ret = exec_destroy(;
+
         }
         else
         {
-            ret = 2;
+            ret = STATUS_ERROR;
         }
     }
 

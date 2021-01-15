@@ -4,7 +4,11 @@
 #include <string.h>
 
 #include "hal_module.h"
-#include "hal_sim.h"
+#include "hal_board_mock.h"
+
+
+// Mock version of the hal board. This is an overly simple brute force approach.
+// For anything more complicated, you should use fff or cmock instead.
 
 
 
@@ -42,10 +46,6 @@ static fpTimerInterrupt p_timerInterrupt;
 static bool p_enbInterrupts;
 
 
-
-
-//---------------- API Implementation ---------------------//
-//---------------- API Implementation ---------------------//
 //---------------- API Implementation ---------------------//
 
 
@@ -193,14 +193,11 @@ uint64_t hal_getCurrentUsec(void)
 }
 
 
-
-//---------------- Simulator Support ---------------------//
-//---------------- Simulator Support ---------------------//
-//---------------- Simulator Support ---------------------//
+//---------------- Mock Support ---------------------//
 
 
 //--------------------------------------------------------//
-void hal_sim_clearDigPins()
+void hal_mock_clearDigPins()
 {
     for(int i = 0; i < NUM_DIG_PINS; i++)
     {
@@ -209,7 +206,7 @@ void hal_sim_clearDigPins()
 }
 
 //--------------------------------------------------------//
-void hal_sim_injectDigInput(unsigned int pin, bool state)
+void hal_mock_injectDigInput(unsigned int pin, bool state)
 {
     p_digPins[pin] = state;
 
@@ -220,37 +217,37 @@ void hal_sim_injectDigInput(unsigned int pin, bool state)
 }
 
 //--------------------------------------------------------//
-bool hal_sim_getDigPin(unsigned int pin)
+bool hal_mock_getDigPin(unsigned int pin)
 {
     return p_digPins[pin];
 }
 
 //--------------------------------------------------------//
-const char* hal_sim_getLastSerWrite()
+const char* hal_mock_getLastSerWrite()
 {
     return p_lastSerWrite;
 }
 
 //--------------------------------------------------------//
-const char* hal_sim_getLastLogWrite()
+const char* hal_mock_getLastLogWrite()
 {
     return p_lastLogWrite;
 }
 
 //--------------------------------------------------------//
-void hal_sim_setNextSerRead(const char* s)
+void hal_mock_setNextSerRead(const char* s)
 {
     strncpy(p_nextSerRead, s, BUFF_LEN);
 }
 
 //--------------------------------------------------------//
-const char* hal_sim_getNextSerRead(void)
+const char* hal_mock_getNextSerRead(void)
 {
     return p_nextSerRead;
 }
 
 //--------------------------------------------------------//
-void hal_sim_timerTick()
+void hal_mock_timerTick()
 {
     p_timerInterrupt();   
 }

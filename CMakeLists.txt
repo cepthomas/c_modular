@@ -16,7 +16,7 @@ include_directories(
 # add_compile_definitions(HAVE_LIST=1)
 
 add_executable(cmod_test
-    source/main.c
+    source/run.c
     source/common_module/private/common_debug.c
     source/common_module/private/common_module.c
     source/exec_module/private/exec_module.c
@@ -24,12 +24,13 @@ add_executable(cmod_test
     source/io_module/private/io_module.c
     source/io_module/private/io_digital.c
     source/io_module/private/io_analog.c
-    source/hal_module/private/hal_board.c
-    test/hal_sim.c
-    test/hal_sim.h
+    # source/hal_module/private/hal_board.c
+    test/test_main.cpp
     test/test_cli.cpp
     test/test_exec.cpp
     test/test_io.cpp
+    test/hal_board_mock.c
+    ../c-bag-of-tricks/source/pnut.cpp
     )
 
 # needs -g!

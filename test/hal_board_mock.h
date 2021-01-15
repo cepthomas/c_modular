@@ -1,38 +1,38 @@
 
-#ifndef HAL_SIM_H
-#define HAL_SIM_H
+#ifndef HAL_MOCK_H
+#define HAL_MOCK_H
 
 #include "hal_module.h"
 
 
-//---------------- Simulator Support ---------------------//
+//---------------- Mock Support ---------------------//
 
 /// Tickle an input pin.
 /// @param pin Specific pin number.
 /// @param state What to set it to.
-void hal_sim_injectDigInput(unsigned int pin, bool state);
+void hal_mock_injectDigInput(unsigned int pin, bool state);
 
 /// Clear all pin states.
-void hal_sim_clearDigPins();
+void hal_mock_clearDigPins();
 
 /// Get a cached pin state.
 /// @param pin Specific pin number.
 /// @return The value.
-bool hal_sim_getDigPin(unsigned int pin);
+bool hal_mock_getDigPin(unsigned int pin);
 
 /// Get the most recent serial port write.
 /// @return The text sent.
-const char* hal_sim_getLastSerWrite();
+const char* hal_mock_getLastSerWrite();
 
 /// Get the most recent log write.
 /// @return The text logged.
-const char* hal_sim_getLastLogWrite();
+const char* hal_mock_getLastLogWrite();
 
 /// Preload the next simulated serial read.
 /// @param s The text.
-void hal_sim_setNextSerRead(const char* s);
+void hal_mock_setNextSerRead(const char* s);
 
 /// Do a system timer tick.
-void hal_sim_timerTick();
+void hal_mock_timerTick();
 
-#endif // HAL_SIM_H
+#endif // HAL_MOCK_H

@@ -19,11 +19,7 @@ status_t exec_init(void);
 /// @return Status on exit.
 status_t exec_run(void);
 
-/// Stop running.
-/// @return Status.
-status_t exec_exit(void);
-
-/// Clean up module resources.
+/// Stop and clean up module resources.
 /// @return Status.
 status_t exec_destroy(void);
 

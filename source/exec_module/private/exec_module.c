@@ -39,16 +39,6 @@ static void p_digInput(digInput_t which, bool value);
 /// Input interrupt handler.
 static void p_anaInput(anaInput_t which, uint16_t value);
 
-/// Macro to minimize boilerplate.
-#define CHECKED_FUNC(_stat, _func, ...) \
-{ \
-    _stat = _func(__VA_ARGS__); \
-    if(_stat != STATUS_OK) \
-    { \
-        common_log(0, "%s(%d) %s", __FILE__, __LINE__, #_func); \
-    } \
-}
-
 
 //---------------- Public API Implementation -------------//
 
@@ -114,19 +104,10 @@ status_t exec_run(void)
 }
 
 //--------------------------------------------------------//
-status_t exec_exit(void)
-{
-    status_t stat = STATUS_OK;
-
-    p_running = false;
-    
-    return stat;
-}
-
-//--------------------------------------------------------//
 status_t exec_destroy(void)
 {
     status_t stat = STATUS_OK;
+    p_running = false;
 
     CHECKED_FUNC(stat, common_destroy);
     CHECKED_FUNC(stat, hal_destroy);
