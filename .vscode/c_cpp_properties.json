@@ -7,7 +7,7 @@
         {
             "name": "cmod",
             "includePath": [
-                "${workspaceFolder}/source",
+                "${workspaceFolder}/source/**",
                 "${workspaceFolder}/test"
             ],
             "defines": [
