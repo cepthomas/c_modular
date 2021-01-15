@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
         if(exec_init() == STATUS_OK)
         {
             // Blocks forever.
-            if(exec_run() != STATUS_OK)
+            if(exec_run() != STATUS_OK) //TODO ??
             {
                 // Bad thing happened.
                 ret = 3;

@@ -1,0 +1,22 @@
+{
+    "enableConfigurationSquiggles": true,
+    "env": {
+        "gccPath": "C:/MinGW/bin"
+    },
+    "configurations": [
+        {
+            "name": "cmod",
+            "includePath": [
+                "${workspaceFolder}/source",
+                "${workspaceFolder}/test"
+            ],
+            "defines": [
+                "TODO"
+            ],
+            "compilerPath": "${gccPath}/g++",
+            //"cStandard": "c99",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}
