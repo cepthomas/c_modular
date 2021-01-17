@@ -4,7 +4,7 @@ project(cmod_test)
 # set(CMAKE_C_STANDARD 99)
 # set(CMAKE_CXX_STANDARD 11)
 
-# needs -g to debug. TODO get rid of -Wno-deprecated-declarations.
+# needs -g to debug. Probably get rid of -Wno-deprecated-declarations.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Werror -Wno-deprecated-declarations") 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror")
 

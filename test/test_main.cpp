@@ -19,7 +19,5 @@ int main()
     whichSuites.emplace_back("CMOD");
     tm.RunSuites(whichSuites, 'r');
 
-    //printf("TODO Don't forget to run_mem_chk!\n");
-
     return 0;
 }

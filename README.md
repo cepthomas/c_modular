@@ -91,6 +91,3 @@ The former is a pure C99 application which should compile anywhere, even minimal
 systems. The test is a C++ application so we can use higher level constructs to create code 
 that executes the pure C application.
 A VS Code workspace using mingw and CMake is supplied. Your PATH needs to include this path.
-
-## License
-https://github.com/cepthomas/c-modular/blob/master/LICENSE

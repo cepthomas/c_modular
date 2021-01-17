@@ -11,7 +11,7 @@
                 "${workspaceFolder}/test"
             ],
             "defines": [
-                "TODO"
+                "xxx"
             ],
             "compilerPath": "${gccPath}/g++",
             //"cStandard": "c99",
