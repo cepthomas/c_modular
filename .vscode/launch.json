@@ -9,6 +9,7 @@
             "name": "debug test",
             "type": "gdb",
             "request": "launch",
+            "preLaunchTask": "build-all",
             // Set debug target as appropriate.
             "target": "${workspaceFolder}/build/cmod_test.exe",
             "cwd": "${workspaceFolder}",
