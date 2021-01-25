@@ -2,7 +2,7 @@
 #ifndef COMMON_DEFS_H
 #define COMMON_DEFS_H
 
-/// @file General defs. Not really module specific.
+/// @brief General defs. Not really module specific.
 
 #include <stdio.h>
 #include <stdint.h>

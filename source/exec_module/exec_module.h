@@ -6,7 +6,7 @@
 #include "common_module.h"
 
 
-/// @file Interface to the exec module.
+/// @brief Interface to the exec module.
 
 
 //---------------- Public API ----------------------//

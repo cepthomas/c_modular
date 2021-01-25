@@ -4,7 +4,7 @@
 
 #include "common_module.h"
 
-/// @file Interface to the CLI module.
+/// @brief Interface to the CLI module.
 
 
 //---------------- Public API ----------------------//
