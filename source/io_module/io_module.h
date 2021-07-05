@@ -53,8 +53,8 @@ typedef enum
 
 
 // For readability.
-#define DIG_ON true
-#define DIG_OFF false
+static const bool DIG_ON = true;
+static const bool DIG_OFF = false;
 
 /// Type: Function pointer for registration of digital input changes.
 /// @param which The input whose state has changed.

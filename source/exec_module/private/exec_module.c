@@ -13,7 +13,7 @@
 //---------------- Private Declarations ------------------//
 
 #define CLI_PORT 0
-#define SYS_TICK_MSEC 10
+static const int SYS_TICK_MSEC = 10;
 
 /// Status.
 static bool p_running;

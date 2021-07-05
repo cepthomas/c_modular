@@ -54,7 +54,7 @@ status_t cli_Process(const char* cmd, char* resp)
     if(strlen(cmd) > 0)
     {
         // Split by spaces.
-        #define MAX_ARGS 4
+        const int MAX_ARGS = 4;
 
         // What are the options.
         char* args[MAX_ARGS];
