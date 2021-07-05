@@ -34,13 +34,13 @@ static char p_nextSerRead[BUFF_LEN];
 static char p_lastLogWrite[BUFF_LEN];
 
 /// Registered client callback.
-static fpDigInterrupt p_digInterrupt;
+static hal_DigInterrupt_t p_digInterrupt;
 
 /// Registered client callback.
-static fpAnaInterrupt p_anaInterrupt;
+static hal_AnaInterrupt_t p_anaInterrupt;
 
 /// Registered client callback.
-static fpTimerInterrupt p_timerInterrupt;
+static hal_TimerInterrupt_t p_timerInterrupt;
 
 /// Interrupts enable on/off.
 static bool p_enbInterrupts;
@@ -50,7 +50,7 @@ static bool p_enbInterrupts;
 
 
 //--------------------------------------------------------//
-status_t hal_init(void)
+status_t hal_Init(void)
 {
     status_t stat = STATUS_OK;
     p_enbInterrupts = false;
@@ -65,14 +65,14 @@ status_t hal_init(void)
 }
 
 //--------------------------------------------------------//
-status_t hal_destroy(void)
+status_t hal_Destroy(void)
 {
     status_t stat = STATUS_OK;
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_enbInterrupts(bool enb)
+status_t hal_EnbInterrupts(bool enb)
 {
     status_t stat = STATUS_OK;
     p_enbInterrupts = enb;
@@ -80,7 +80,7 @@ status_t hal_enbInterrupts(bool enb)
 }
 
 //--------------------------------------------------------//
-status_t hal_log(const char* txt)
+status_t hal_Log(const char* txt)
 {
     status_t stat = STATUS_OK;
     snprintf(p_lastLogWrite, BUFF_LEN, "%s", txt);
@@ -88,7 +88,7 @@ status_t hal_log(const char* txt)
 }
 
 //--------------------------------------------------------//
-status_t hal_regDigInterrupt(fpDigInterrupt fp)
+status_t hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 {
     status_t stat = STATUS_OK;
     p_digInterrupt = fp;
@@ -96,7 +96,7 @@ status_t hal_regDigInterrupt(fpDigInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
+status_t hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 {
     status_t stat = STATUS_OK;
     p_anaInterrupt = fp;
@@ -104,7 +104,7 @@ status_t hal_regAnaInterrupt(fpAnaInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_regTimerInterrupt(unsigned int period, fpTimerInterrupt fp)
+status_t hal_RegTimerInterrupt(unsigned int period, hal_TimerInterrupt_t fp)
 {
     status_t stat = STATUS_OK;
     p_timerPeriod = period;
@@ -113,7 +113,7 @@ status_t hal_regTimerInterrupt(unsigned int period, fpTimerInterrupt fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_writeDig(unsigned int pin, bool value)
+status_t hal_WriteDig(unsigned int pin, bool value)
 {
     status_t stat = STATUS_OK;
     p_digPins[pin] = value;
@@ -121,7 +121,7 @@ status_t hal_writeDig(unsigned int pin, bool value)
 }
 
 //--------------------------------------------------------//
-status_t hal_readDig(unsigned int pin, bool* value)
+status_t hal_ReadDig(unsigned int pin, bool* value)
 {
     status_t stat = STATUS_OK;
     *value = p_digPins[pin];
@@ -149,7 +149,7 @@ status_t hal_readAnalog(unsigned int channel, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t hal_serOpen(unsigned int channel)
+status_t hal_SerOpen(unsigned int channel)
 {
     (void)channel;
 
@@ -158,7 +158,7 @@ status_t hal_serOpen(unsigned int channel)
 }
 
 //--------------------------------------------------------//
-status_t hal_serReadLine(unsigned int channel, char* buff, int num)
+status_t hal_SerReadLine(unsigned int channel, char* buff, int num)
 {
     (void)channel;
     (void)buff;
@@ -171,7 +171,7 @@ status_t hal_serReadLine(unsigned int channel, char* buff, int num)
 }
 
 //--------------------------------------------------------//
-status_t hal_serWriteLine(unsigned int channel, char* buff)
+status_t hal_SerWriteLine(unsigned int channel, char* buff)
 {
     (void)channel;
     (void)buff;
@@ -183,7 +183,7 @@ status_t hal_serWriteLine(unsigned int channel, char* buff)
 }
 
 //--------------------------------------------------------//
-uint64_t hal_getCurrentUsec(void)
+uint64_t hal_GetCurrentUsec(void)
 {
     struct timeval tv;
     struct timezone tz;

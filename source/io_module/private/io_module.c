@@ -7,27 +7,29 @@
 
 
 
-//---------------- Private --------------------------//
+//---------------- Private Declarations ------------------//
 
-extern status_t io_initDig(void);
+extern status_t io_InitDig(void);
 
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_init(void)
+status_t io_Init(void)
 {
     status_t stat = STATUS_OK;
 
-    stat = io_initDig();
+    stat = io_InitDig();
 
     return stat;
 }
 
 
 //--------------------------------------------------------//
-status_t io_destroy(void)
+status_t io_Destroy(void)
 {
     status_t stat = STATUS_OK;
   
     return stat;
 }
+
+//---------------- Private Implementation ----------------//

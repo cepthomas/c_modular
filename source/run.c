@@ -32,13 +32,13 @@ int run(int argc, char* argv[])
     }
     else
     {
-        if(exec_init() == STATUS_OK)
+        if(exec_Init() == STATUS_OK)
         {
             // Blocks forever.
-            ret = exec_run();
+            ret = exec_Run();
 
             // Clean up.
-            exec_destroy();
+            exec_Destroy();
             //ret = exec_destroy(;
 
         }

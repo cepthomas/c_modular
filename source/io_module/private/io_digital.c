@@ -6,28 +6,40 @@
 
 
 
-//---------------- Private --------------------------//
+//---------------- Private Declarations ------------------//
 
 /// Client requested callbacks.
-static fpDigInputCallback p_digInputCallbacks[DIG_IN_END];
+static io_DigInputCallback_t p_dig_callbacks[DIG_IN_END];
 
 /// Callback for hal_module generated interrupts.
 /// @param which Specific input number.
 /// @param value The new value.
-static void p_digInterruptHandler(unsigned int which, bool value);
+static void p_DigInterruptHandler(unsigned int which, bool value);
 
 
 
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_regDigInputCallback(digInput_t which, fpDigInputCallback fp)
+status_t io_InitDig(void)
+{
+    status_t stat = STATUS_OK;
+
+    memset(p_dig_callbacks, 0x00, sizeof(p_dig_callbacks));
+
+    stat = hal_RegDigInterrupt(p_DigInterruptHandler);
+
+    return stat;
+}
+
+//--------------------------------------------------------//
+status_t io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
 {
     status_t stat = STATUS_OK;
 
     if(which < DIG_IN_END)
     {
-        p_digInputCallbacks[which] = fp;
+        p_dig_callbacks[which] = fp;
     }
     else
     {
@@ -38,13 +50,13 @@ status_t io_regDigInputCallback(digInput_t which, fpDigInputCallback fp)
 }
 
 //--------------------------------------------------------//
-status_t io_setDigOutput(digOutput_t which, bool value)
+status_t io_SetDigOutput(dig_output_t which, bool value)
 {
     status_t stat = STATUS_OK;
 
     if(which < NUM_DIG_PINS)
     {
-        hal_writeDig(which, value);
+        hal_WriteDig(which, value);
     }
     else
     {
@@ -55,13 +67,13 @@ status_t io_setDigOutput(digOutput_t which, bool value)
 }
 
 //--------------------------------------------------------//
-status_t io_getDigInput(digInput_t which, bool* value)
+status_t io_GetDigInput(dig_input_t which, bool* value)
 {
     status_t stat = STATUS_OK;
 
     if(which < NUM_DIG_PINS)
     {
-        stat = hal_readDig(which, value);
+        stat = hal_ReadDig(which, value);
     }
     else
     {
@@ -72,13 +84,13 @@ status_t io_getDigInput(digInput_t which, bool* value)
 }
 
 //--------------------------------------------------------//
-status_t io_getDigOutput(digOutput_t which, bool* value)
+status_t io_GetDigOutput(dig_output_t which, bool* value)
 {
     status_t stat = STATUS_OK;
 
     if(which < NUM_DIG_PINS)
     {
-        stat = hal_readDig(which, value);
+        stat = hal_ReadDig(which, value);
     }
     else
     {
@@ -89,31 +101,18 @@ status_t io_getDigOutput(digOutput_t which, bool* value)
 }
 
 
-
-//---------------- Private --------------------------//
-
-//--------------------------------------------------------//
-status_t io_initDig(void)
-{
-    status_t stat = STATUS_OK;
-
-    memset(p_digInputCallbacks, 0x00, sizeof(p_digInputCallbacks));
-
-    stat = hal_regDigInterrupt(p_digInterruptHandler);
-
-    return stat;
-}
+//---------------- Private Implementation ----------------//
 
 //--------------------------------------------------------//
-void p_digInterruptHandler(unsigned int which, bool value)
+void p_DigInterruptHandler(unsigned int which, bool value)
 {
     if(which < NUM_DIG_PINS)
     {
         // Fire callback for registered client.
-        if(p_digInputCallbacks[which] != NULL)
+        if(p_dig_callbacks[which] != NULL)
         {
-            digInput_t din = (digInput_t)which; // Don't ever do this!
-            p_digInputCallbacks[which](din, value);
+            dig_input_t din = (dig_input_t)which; // Don't ever do this!
+            p_dig_callbacks[which](din, value);
         }
     }
     //else error???

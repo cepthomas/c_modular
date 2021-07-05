@@ -10,11 +10,11 @@
 // A very crude cli processor. Yours would be much more elegant.
 
 
-//---------------- Private --------------------------//
+//---------------- Private Declarations ------------------//
 
-static digOutput_t p_parseDigOutput(const char* dout)
+static dig_output_t p_ParseDigOutput(const char* dout)
 {
-    digOutput_t ret = DIG_OUT_END;
+    dig_output_t ret = DIG_OUT_END;
 
     if((strcmp("LED1", dout) == 0))
     {
@@ -36,7 +36,7 @@ static digOutput_t p_parseDigOutput(const char* dout)
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t cli_init()
+status_t cli_Init()
 {
     status_t stat = STATUS_OK;
 
@@ -44,7 +44,7 @@ status_t cli_init()
 }
 
 //--------------------------------------------------------//
-status_t cli_process(const char* cmd, char* resp)
+status_t cli_Process(const char* cmd, char* resp)
 {
     (void)cmd;
     (void)resp;
@@ -75,17 +75,17 @@ status_t cli_process(const char* cmd, char* resp)
         // Determine action.
         if((strcmp("EXIT", args[0]) == 0))
         {
-            exec_destroy();
+            exec_Destroy();
         }
         else if((strcmp("SET", args[0]) == 0))
         {
-            digOutput_t dout = p_parseDigOutput(args[1]);
-            stat = io_setDigOutput(dout, true);
+            dig_output_t dout = p_ParseDigOutput(args[1]);
+            stat = io_SetDigOutput(dout, true);
         }
         else if((strcmp("CLR", args[0]) == 0))
         {
-            digOutput_t dout = p_parseDigOutput(args[1]);
-            stat = io_setDigOutput(dout, false);
+            dig_output_t dout = p_ParseDigOutput(args[1]);
+            stat = io_SetDigOutput(dout, false);
         }
         else
         {
@@ -99,13 +99,12 @@ status_t cli_process(const char* cmd, char* resp)
 }
 
 //--------------------------------------------------------//
-status_t cli_destroy(void)
+status_t cli_Destroy(void)
 {
     status_t stat = STATUS_OK;
 
     return stat;
 }
 
-
-//---------------- Private --------------------------//
+//---------------- Private Implementation ----------------//
 

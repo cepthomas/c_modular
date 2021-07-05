@@ -13,15 +13,15 @@
 
 /// Initialize the module.
 /// @return Status.
-status_t exec_init(void);
+status_t exec_Init(void);
 
 /// Enter the forever loop.
 /// @return Status on exit.
-status_t exec_run(void);
+status_t exec_Run(void);
 
 /// Stop and clean up module resources.
 /// @return Status.
-status_t exec_destroy(void);
+status_t exec_Destroy(void);
 
 
 #endif // EXEC_MODULE_H

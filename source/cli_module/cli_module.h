@@ -13,17 +13,17 @@
 
 /// Initialize the module.
 /// @return Status.
-status_t cli_init(void);
+status_t cli_Init(void);
 
 /// Check for input and process to output.
 /// @param cmd Command to process.
 /// @param resp Result of the operation.
 /// @return Status.
-status_t cli_process(const char* cmd, char* resp);
+status_t cli_Process(const char* cmd, char* resp);
 
 /// Clean up module resources.
 /// @return Status.
-status_t cli_destroy(void);
+status_t cli_Destroy(void);
 
 
 #endif // CLI_MODULE_H

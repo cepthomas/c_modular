@@ -5,13 +5,13 @@
 // Left as an exercise to the student.
 
 
-//---------------- Private --------------------------//
+//---------------- Private Declarations ------------------//
 
 
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_regAnaInputCallback(anaInput_t which, fpAnaInputCallback fp)
+status_t io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp)
 {
     (void)which;
     (void)fp;
@@ -20,7 +20,7 @@ status_t io_regAnaInputCallback(anaInput_t which, fpAnaInputCallback fp)
 }
 
 //--------------------------------------------------------//
-status_t io_setAnaOutput(anaOutput_t which, uint16_t value)
+status_t io_SetAnaOutput(ana_output_t which, uint16_t value)
 {
     (void)which;
     (void)value;
@@ -29,7 +29,7 @@ status_t io_setAnaOutput(anaOutput_t which, uint16_t value)
 }
 
 //--------------------------------------------------------//
-status_t io_getAnaInput(anaInput_t which, uint16_t* value)
+status_t io_GetAnaInput(ana_input_t which, uint16_t* value)
 {
     (void)which;
     (void)value;
@@ -38,5 +38,5 @@ status_t io_getAnaInput(anaInput_t which, uint16_t* value)
 }
 
 
-//---------------- Private --------------------------//
+//---------------- Private Implementation ----------------//
 
