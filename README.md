@@ -1,4 +1,4 @@
-# c-modular
+# c_modular
 
 ## Overview
 This is a formalization of several techniques I have used in the past when implementing embedded C code.

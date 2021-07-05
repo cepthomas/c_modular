@@ -25,7 +25,7 @@ int run(int argc, char* argv[])
     if (showUsage)
     {
         // Command line arguments were no good, print a usage message and exit.
-        printf("c-modular demo [opts] filename\n");
+        printf("c_modular demo [opts] filename\n");
         printf("   -x: do something\n");
         printf("   filename: the filename or uri\n");
         ret = 1;

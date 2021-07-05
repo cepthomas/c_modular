@@ -42,6 +42,8 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
     // Exit.
     status = exec_destroy();
     UT_EQUAL(status, STATUS_OK);
+
+    return 0;
 }
 
 
@@ -78,5 +80,6 @@ UT_SUITE(CMOD_EXEC_LOOP, "Test the dynamic periodic processing.")
     // Exit.
     status = exec_destroy();
     UT_EQUAL(status, STATUS_OK);
-}
 
+    return 0;
+}

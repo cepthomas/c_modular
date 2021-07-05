@@ -8,7 +8,8 @@
             "name": "cmod",
             "includePath": [
                 "${workspaceFolder}/source/**",
-                "${workspaceFolder}/test"
+                "${workspaceFolder}/test",
+                "${workspaceFolder}/../c_bag_of_tricks/cbot_module"
             ],
             "defines": [
                 "xxx"

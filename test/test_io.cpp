@@ -47,6 +47,8 @@ UT_SUITE(CMOD_DIG_IO, "Test digital read/write.")
     // Exit.
     status = exec_destroy();
     UT_EQUAL(status, STATUS_OK);
+
+    return 0;
 }
 
 
@@ -64,4 +66,6 @@ UT_SUITE(CMOD_ANA_IO, "Test analog read/write.")
     // Exit.
     status = exec_destroy();
     UT_EQUAL(status, STATUS_OK);
+
+    return 0;
 }
