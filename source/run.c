@@ -22,7 +22,7 @@ int run(int argc, char* argv[])
         //const char* carg = argv[i];
     }
 
-    if (showUsage)
+    if(showUsage)
     {
         // Command line arguments were no good, print a usage message and exit.
         printf("c_modular demo [opts] filename\n");

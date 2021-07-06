@@ -9,7 +9,7 @@
             "includePath": [
                 "${workspaceFolder}/source/**",
                 "${workspaceFolder}/test",
-                "${workspaceFolder}/../c_bag_of_tricks/cbot_module"
+                "${workspaceFolder}/../c_bag_of_tricks/source"
             ],
             "defines": [
                 "xxx"

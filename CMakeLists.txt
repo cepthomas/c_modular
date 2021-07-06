@@ -14,7 +14,7 @@ include_directories(
     source/exec_module
     source/io_module
     source/hal_module
-    ../c_bag_of_tricks/cbot_module
+    ../c_bag_of_tricks/source
     )
 # add_compile_definitions(HAVE_LIST=1)
 
@@ -34,5 +34,5 @@ add_executable(cmod_test
     test/test_exec.cpp
     test/test_io.cpp
     test/hal_board_mock.c
-    ../c_bag_of_tricks/cbot_module/private/pnut.cpp
+    ../c_bag_of_tricks/source/private/pnut.cpp
     )
