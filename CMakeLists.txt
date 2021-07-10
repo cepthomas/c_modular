@@ -4,8 +4,8 @@ project(cmod_test)
 # set(CMAKE_C_STANDARD 99)
 # set(CMAKE_CXX_STANDARD 11)
 
-# needs -g to debug. Probably get rid of -Wno-deprecated-declarations.
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Werror -Wno-deprecated-declarations") 
+# needs -g to debug.
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Werror -Wno-deprecated-declarations -Wno-unused-variable -Wno-unused-but-set-variable") 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror")
 
 include_directories(
@@ -15,6 +15,7 @@ include_directories(
     source/io_module
     source/hal_module
     ../c_bag_of_tricks/source
+    ../c_bag_of_tricks/pnut
     )
 # add_compile_definitions(HAVE_LIST=1)
 
@@ -34,5 +35,5 @@ add_executable(cmod_test
     test/test_exec.cpp
     test/test_io.cpp
     test/hal_board_mock.c
-    ../c_bag_of_tricks/source/private/pnut.cpp
+    ../c_bag_of_tricks/pnut/pnut.cpp
     )

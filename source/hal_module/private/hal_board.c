@@ -60,7 +60,8 @@ status_t hal_Log(const char* txt)
 {
     status_t stat = STATUS_OK;
 
-    printf("%s", txt);
+    // Fake logger.
+    printf("LOG:%s", txt);
 
     return stat;
 }

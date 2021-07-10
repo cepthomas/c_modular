@@ -9,13 +9,14 @@
             "includePath": [
                 "${workspaceFolder}/source/**",
                 "${workspaceFolder}/test",
-                "${workspaceFolder}/../c_bag_of_tricks/source"
+                "${workspaceFolder}/../c_bag_of_tricks/source",
+                "${workspaceFolder}/../c_bag_of_tricks/pnut"
             ],
             "defines": [
                 "xxx"
             ],
             "compilerPath": "${gccPath}/g++",
-            //"cStandard": "c99",
+            "cStandard": "c99",
             "intelliSenseMode": "gcc-x86"
         }
     ],

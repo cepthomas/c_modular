@@ -28,15 +28,13 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
 
     // Logging.
     // Disable logging.
-    common_SetLogLevel(0);
-    common_Log(3, "1 - This should not appear.");
+    common_Log("1 - This should not appear.");
     UT_STR_EQUAL(hal_mock_getLastLogWrite(), "");
 
     // Selective logging.
-    common_SetLogLevel(2);
-    common_Log(2, "2 - This should appear.");
+    common_Log("2 - This should appear.");
     UT_STR_EQUAL(hal_mock_getLastLogWrite(), "2 - This should appear.");
-    common_Log(3, "3 - This should not appear.");
+    common_Log("3 - This should not appear.");
     UT_STR_EQUAL(hal_mock_getLastLogWrite(), "2 - This should appear.");
 
     // Exit.

@@ -56,30 +56,29 @@ status_t exec_Init(void)
     p_tick = 0;
 
     // Init modules.
-    common_SetLogLevel(1);
-    CHECKED_FUNC(stat, common_Init);
-    CHECKED_FUNC(stat, hal_Init);
-    CHECKED_FUNC(stat, io_Init);
-    CHECKED_FUNC(stat, cli_Init);
+    stat = common_Init();
+    stat = hal_Init();
+    stat = io_Init();
+    stat = cli_Init();
 
     // Set up all your board-specific stuff.
-    CHECKED_FUNC(stat, hal_RegTimerInterrupt, SYS_TICK_MSEC, p_TimerHandler);
-    CHECKED_FUNC(stat, hal_SerOpen, CLI_PORT);
+    stat = hal_RegTimerInterrupt(SYS_TICK_MSEC, p_TimerHandler);
+    stat = hal_SerOpen(CLI_PORT);
 
     // Register for input interrupts.
-    CHECKED_FUNC(stat, io_RegDigInputCallback, DIG_IN_BUTTON1, p_DigInput);
-    CHECKED_FUNC(stat, io_RegDigInputCallback, DIG_IN_BUTTON2, p_DigInput);
-    CHECKED_FUNC(stat, io_RegDigInputCallback, DIG_IN_BUTTON3, p_DigInput);
-    CHECKED_FUNC(stat, io_RegDigInputCallback, DIG_IN_SWITCH1, p_DigInput);
-    CHECKED_FUNC(stat, io_RegDigInputCallback, DIG_IN_SWITCH2, p_DigInput);
-    CHECKED_FUNC(stat, io_RegAnaInputCallback, ANA_IN_TEMP, p_AnaInput);
-    CHECKED_FUNC(stat, io_RegAnaInputCallback, ANA_IN_VELOCITY, p_AnaInput);
+    stat = io_RegDigInputCallback(DIG_IN_BUTTON1, p_DigInput);
+    stat = io_RegDigInputCallback(DIG_IN_BUTTON2, p_DigInput);
+    stat = io_RegDigInputCallback(DIG_IN_BUTTON3, p_DigInput);
+    stat = io_RegDigInputCallback(DIG_IN_SWITCH1, p_DigInput);
+    stat = io_RegDigInputCallback(DIG_IN_SWITCH2, p_DigInput);
+    stat = io_RegAnaInputCallback(ANA_IN_TEMP, p_AnaInput);
+    stat = io_RegAnaInputCallback(ANA_IN_VELOCITY, p_AnaInput);
 
     // Init outputs.
-    CHECKED_FUNC(stat, io_SetDigOutput, DIG_OUT_LED1, DIG_ON);
-    CHECKED_FUNC(stat, io_SetDigOutput, DIG_OUT_LED2, DIG_OFF);
-    CHECKED_FUNC(stat, io_SetDigOutput, DIG_OUT_RELAY, DIG_OFF);
-    CHECKED_FUNC(stat, io_SetAnaOutput, ANA_OUT_PRESSURE, 80);
+    stat = io_SetDigOutput(DIG_OUT_LED1, DIG_ON);
+    stat = io_SetDigOutput(DIG_OUT_LED2, DIG_OFF);
+    stat = io_SetDigOutput(DIG_OUT_RELAY, DIG_OFF);
+    stat = io_SetAnaOutput(ANA_OUT_PRESSURE, 80);
 
     return stat;
 }
@@ -109,12 +108,11 @@ status_t exec_Destroy(void)
     status_t stat = STATUS_OK;
     p_running = false;
 
-    CHECKED_FUNC(stat, common_Destroy);
-    CHECKED_FUNC(stat, hal_Destroy);
-    CHECKED_FUNC(stat, io_Destroy);
-    CHECKED_FUNC(stat, cli_Destroy);
-    
-    return stat;
+    stat = common_Destroy();
+    stat = hal_Destroy();
+    stat = io_Destroy();
+    stat = cli_Destroy();
+        return stat;
 }
 
 
@@ -130,15 +128,13 @@ void p_TimerHandler(void)
     if(p_tick % 50 == 0)
     {
         // Poll cli.
-        status_t stat = STATUS_OK;
-
-        CHECKED_FUNC(stat, hal_SerReadLine, CLI_PORT, p_rx_buf, CLI_BUFF_LEN);
+        status_t stat = hal_SerReadLine(CLI_PORT, p_rx_buf, CLI_BUFF_LEN);
 
         if(strlen(p_rx_buf) > 0)
         {
             // Got something. Give to cli to handle.
-            CHECKED_FUNC(stat, cli_Process, p_rx_buf, p_tx_buf);
-            CHECKED_FUNC(stat, hal_SerWriteLine, CLI_PORT, p_tx_buf);
+            stat = cli_Process(p_rx_buf, p_tx_buf);
+            stat = hal_SerWriteLine(CLI_PORT, p_tx_buf);
         }
     }
 
