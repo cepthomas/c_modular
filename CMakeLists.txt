@@ -5,8 +5,8 @@ project(cmod_test)
 # set(CMAKE_CXX_STANDARD 11)
 
 # needs -g to debug.
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Werror -Wno-deprecated-declarations -Wno-unused-variable -Wno-unused-but-set-variable") 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Werror")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
 include_directories(
     source/common_module
@@ -17,6 +17,7 @@ include_directories(
     ../c_bag_of_tricks/source
     ../c_bag_of_tricks/pnut
     )
+    
 # add_compile_definitions(HAVE_LIST=1)
 
 # Source files.

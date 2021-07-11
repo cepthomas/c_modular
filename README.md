@@ -86,8 +86,11 @@ Where:
 - `pnut.h` is the unit test framework.
 
 ## Build
-There are two bodies of code here, the application source, and the test executable.
-The former is a pure C99 application which should compile anywhere, even minimal embedded 
-systems. The test is a C++ application so we can use higher level constructs to create code 
-that executes the pure C application.
-A VS Code workspace using mingw and CMake is supplied. Your PATH needs to include this path.
+There are two bodies of code here, the application library, and a test executable.
+
+The former is pure C99 which should compile anywhere, even for minimal embedded systems.
+
+If you want to use the latter, it requires [c_bag_of_tricks](https://github.com/cepthomas/c_bag_of_tricks)
+at the same level as this project. Maybe I'll make it a submodule some time.
+
+Also a VS Code workspace using mingw and CMake is supplied.

@@ -56,29 +56,29 @@ status_t exec_Init(void)
     p_tick = 0;
 
     // Init modules.
-    stat = common_Init();
-    stat = hal_Init();
-    stat = io_Init();
-    stat = cli_Init();
+    stat |= common_Init();
+    stat |= hal_Init();
+    stat |= io_Init();
+    stat |= cli_Init();
 
     // Set up all your board-specific stuff.
-    stat = hal_RegTimerInterrupt(SYS_TICK_MSEC, p_TimerHandler);
-    stat = hal_SerOpen(CLI_PORT);
+    stat |= hal_RegTimerInterrupt(SYS_TICK_MSEC, p_TimerHandler);
+    stat |= hal_SerOpen(CLI_PORT);
 
     // Register for input interrupts.
-    stat = io_RegDigInputCallback(DIG_IN_BUTTON1, p_DigInput);
-    stat = io_RegDigInputCallback(DIG_IN_BUTTON2, p_DigInput);
-    stat = io_RegDigInputCallback(DIG_IN_BUTTON3, p_DigInput);
-    stat = io_RegDigInputCallback(DIG_IN_SWITCH1, p_DigInput);
-    stat = io_RegDigInputCallback(DIG_IN_SWITCH2, p_DigInput);
-    stat = io_RegAnaInputCallback(ANA_IN_TEMP, p_AnaInput);
-    stat = io_RegAnaInputCallback(ANA_IN_VELOCITY, p_AnaInput);
+    stat |= io_RegDigInputCallback(DIG_IN_BUTTON1, p_DigInput);
+    stat |= io_RegDigInputCallback(DIG_IN_BUTTON2, p_DigInput);
+    stat |= io_RegDigInputCallback(DIG_IN_BUTTON3, p_DigInput);
+    stat |= io_RegDigInputCallback(DIG_IN_SWITCH1, p_DigInput);
+    stat |= io_RegDigInputCallback(DIG_IN_SWITCH2, p_DigInput);
+    stat |= io_RegAnaInputCallback(ANA_IN_TEMP, p_AnaInput);
+    stat |= io_RegAnaInputCallback(ANA_IN_VELOCITY, p_AnaInput);
 
     // Init outputs.
-    stat = io_SetDigOutput(DIG_OUT_LED1, DIG_ON);
-    stat = io_SetDigOutput(DIG_OUT_LED2, DIG_OFF);
-    stat = io_SetDigOutput(DIG_OUT_RELAY, DIG_OFF);
-    stat = io_SetAnaOutput(ANA_OUT_PRESSURE, 80);
+    stat |= io_SetDigOutput(DIG_OUT_LED1, DIG_ON);
+    stat |= io_SetDigOutput(DIG_OUT_LED2, DIG_OFF);
+    stat |= io_SetDigOutput(DIG_OUT_RELAY, DIG_OFF);
+    stat |= io_SetAnaOutput(ANA_OUT_PRESSURE, 80);
 
     return stat;
 }
@@ -130,7 +130,7 @@ void p_TimerHandler(void)
         // Poll cli.
         status_t stat = hal_SerReadLine(CLI_PORT, p_rx_buf, CLI_BUFF_LEN);
 
-        if(strlen(p_rx_buf) > 0)
+        if(stat == STATUS_OK && strlen(p_rx_buf) > 0)
         {
             // Got something. Give to cli to handle.
             stat = cli_Process(p_rx_buf, p_tx_buf);
