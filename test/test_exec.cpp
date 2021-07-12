@@ -27,14 +27,8 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
     UT_EQUAL(status, STATUS_OK);
 
     // Logging.
-    // Disable logging.
     common_Log("1 - This should not appear.");
-    UT_STR_EQUAL(hal_mock_getLastLogWrite(), "");
-
-    // Selective logging.
     common_Log("2 - This should appear.");
-    UT_STR_EQUAL(hal_mock_getLastLogWrite(), "2 - This should appear.");
-    common_Log("3 - This should not appear.");
     UT_STR_EQUAL(hal_mock_getLastLogWrite(), "2 - This should appear.");
 
     // Exit.

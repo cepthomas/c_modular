@@ -16,10 +16,10 @@ static char p_log_buff[100];
 //--------------------------------------------------------//
 void common_Log(const char* format, ...)
 {
-        va_list args;
-        va_start(args, format);
-        vsnprintf(p_log_buff, sizeof(p_log_buff), format, args);
-        hal_Log(p_log_buff);
+    va_list args;
+    va_start(args, format);
+    vsnprintf(p_log_buff, sizeof(p_log_buff), format, args);
+    hal_Log(p_log_buff);
 }
 
 //---------------- Private Implementation ----------------//
