@@ -7,7 +7,7 @@ mundane and algorithmic stuff. To make life easier, it is necessary to separate 
 dependent content from the rest of the application. When they are isolated they can be replaced by components
 more tuned to debugging and testing. While this can be done with all sorts of FOSS I find the majority to be
 too heavy or unecessarily complicated. I just want a simple way to stub IO so ended up with a home-brew that
-is used in conjunction with my trusty unit tester [pnut](https://github.com/cepthomas/pnut).
+is used in conjunction with my trusty unit tester [pnut](https://github.com/cepthomas/c_bag_of_tricks).
 
 ## Modules
 In other languages, interfaces or abstract classes are very handy for defining the boundaries that can be 

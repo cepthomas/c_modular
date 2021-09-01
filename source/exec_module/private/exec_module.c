@@ -43,9 +43,9 @@ static void p_AnaInput(ana_input_t which, uint16_t value);
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t exec_Init(void)
+int exec_Init(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     // Init memory.
     memset(p_rx_buf, 0x00, sizeof(p_rx_buf));
@@ -84,9 +84,9 @@ status_t exec_Init(void)
 }
 
 //--------------------------------------------------------//
-status_t exec_Run(void)
+int exec_Run(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     // Let her rip!
     hal_EnbInterrupts(true);
@@ -103,9 +103,9 @@ status_t exec_Run(void)
 }
 
 //--------------------------------------------------------//
-status_t exec_Destroy(void)
+int exec_Destroy(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
     p_running = false;
 
     stat = common_Destroy();
@@ -128,9 +128,9 @@ void p_TimerHandler(void)
     if(p_tick % 50 == 0)
     {
         // Poll cli.
-        status_t stat = hal_SerReadLine(CLI_PORT, p_rx_buf, CLI_BUFF_LEN);
+        int stat = hal_SerReadLine(CLI_PORT, p_rx_buf, CLI_BUFF_LEN);
 
-        if(stat == STATUS_OK && strlen(p_rx_buf) > 0)
+        if(stat == RS_PASS && strlen(p_rx_buf) > 0)
         {
             // Got something. Give to cli to handle.
             stat = cli_Process(p_rx_buf, p_tx_buf);

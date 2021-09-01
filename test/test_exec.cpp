@@ -20,11 +20,11 @@ extern "C"
 //--------------------------------------------------------------//
 UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
 {
-    status_t status = STATUS_OK;
+    int status = RS_PASS;
 
     // Init modules.
     status = exec_Init();
-    UT_EQUAL(status, STATUS_OK);
+    UT_EQUAL(status, RS_PASS);
 
     // Logging.
     common_Log("1 - This should not appear.");
@@ -33,7 +33,7 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
 
     // Exit.
     status = exec_Destroy();
-    UT_EQUAL(status, STATUS_OK);
+    UT_EQUAL(status, RS_PASS);
 
     return 0;
 }
@@ -42,11 +42,11 @@ UT_SUITE(CMOD_EXEC_BASIC, "Test init/exit and common stuff.")
 //--------------------------------------------------------------//
 UT_SUITE(CMOD_EXEC_LOOP, "Test the dynamic periodic processing.")
 {
-    status_t status = STATUS_OK;
+    int status = RS_PASS;
 
     // Init modules.
     status = exec_Init();
-    UT_EQUAL(status, STATUS_OK);
+    UT_EQUAL(status, RS_PASS);
 
     // We can't actually call exec_run() without setting up some worker threads (another day)
     // so we will just pretend we are that loop.
@@ -71,7 +71,7 @@ UT_SUITE(CMOD_EXEC_LOOP, "Test the dynamic periodic processing.")
 
     // Exit.
     status = exec_Destroy();
-    UT_EQUAL(status, STATUS_OK);
+    UT_EQUAL(status, RS_PASS);
 
     return 0;
 }

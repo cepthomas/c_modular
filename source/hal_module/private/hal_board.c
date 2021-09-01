@@ -25,9 +25,9 @@ static bool p_enb_interrupts;
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t hal_Init(void)
+int hal_Init(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     p_enb_interrupts = false;
     p_dig_interrupt = NULL;
@@ -38,17 +38,17 @@ status_t hal_Init(void)
 }
 
 //--------------------------------------------------------//
-status_t hal_Destroy(void)
+int hal_Destroy(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
   
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_EnbInterrupts(bool enb)
+int hal_EnbInterrupts(bool enb)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     p_enb_interrupts = enb;
 
@@ -56,9 +56,9 @@ status_t hal_EnbInterrupts(bool enb)
 }
 
 //--------------------------------------------------------//
-status_t hal_Log(const char* txt)
+int hal_Log(const char* txt)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     // Fake logger.
     printf("LOG:%s", txt);
@@ -67,9 +67,9 @@ status_t hal_Log(const char* txt)
 }
 
 //--------------------------------------------------------//
-status_t hal_RegDigInterrupt(hal_DigInterrupt_t fp)
+int hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     p_dig_interrupt = fp;
 
@@ -77,9 +77,9 @@ status_t hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
+int hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     p_ana_interrupt = fp;
 
@@ -87,11 +87,11 @@ status_t hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 }
 
 //--------------------------------------------------------//
-status_t hal_RegTimerInterrupt(unsigned int when, hal_TimerInterrupt_t fp)
+int hal_RegTimerInterrupt(unsigned int when, hal_TimerInterrupt_t fp)
 {
     (void)when;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     p_timer_interrupt = fp;
 
@@ -105,78 +105,78 @@ uint64_t hal_GetCurrentUsec(void)
 }
 
 //--------------------------------------------------------//
-status_t hal_WriteDig(unsigned int pin, bool value)
+int hal_WriteDig(unsigned int pin, bool value)
 {
     (void)pin;
     (void)value;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_ReadDig(unsigned int pin, bool* value)
+int hal_ReadDig(unsigned int pin, bool* value)
 {
     (void)pin;
     (void)value;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_writeAnalog(unsigned int channel, uint16_t value)
+int hal_writeAnalog(unsigned int channel, uint16_t value)
 {
     (void)channel;
     (void)value;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_readAnalog(unsigned int channel, uint16_t value)
+int hal_readAnalog(unsigned int channel, uint16_t value)
 {
     (void)channel;
     (void)value;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_SerOpen(unsigned int channel)
+int hal_SerOpen(unsigned int channel)
 {
     (void)channel;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_SerReadLine(unsigned int channel, char* buff, int num)
+int hal_SerReadLine(unsigned int channel, char* buff, int num)
 {
     (void)channel;
     (void)buff;
     (void)num;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t hal_SerWriteLine(unsigned int channel, char* buff)
+int hal_SerWriteLine(unsigned int channel, char* buff)
 {
     (void)channel;
     (void)buff;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
     
     return stat;    
 }

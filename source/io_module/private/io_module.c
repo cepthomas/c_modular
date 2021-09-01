@@ -9,14 +9,14 @@
 
 //---------------- Private Declarations ------------------//
 
-extern status_t io_InitDig(void);
+extern int io_InitDig(void);
 
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_Init(void)
+int io_Init(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     stat = io_InitDig();
 
@@ -25,9 +25,9 @@ status_t io_Init(void)
 
 
 //--------------------------------------------------------//
-status_t io_Destroy(void)
+int io_Destroy(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
   
     return stat;
 }

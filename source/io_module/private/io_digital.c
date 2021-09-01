@@ -21,9 +21,9 @@ static void p_DigInterruptHandler(unsigned int which, bool value);
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_InitDig(void)
+int io_InitDig(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     memset(p_dig_callbacks, 0x00, sizeof(p_dig_callbacks));
 
@@ -33,9 +33,9 @@ status_t io_InitDig(void)
 }
 
 //--------------------------------------------------------//
-status_t io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
+int io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     if(which < DIG_IN_END)
     {
@@ -43,16 +43,16 @@ status_t io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
     }
     else
     {
-        stat = STATUS_ERROR;   
+        stat = RS_ERR;   
     }
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t io_SetDigOutput(dig_output_t which, bool value)
+int io_SetDigOutput(dig_output_t which, bool value)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -60,16 +60,16 @@ status_t io_SetDigOutput(dig_output_t which, bool value)
     }
     else
     {
-        stat = STATUS_ERROR;   
+        stat = RS_ERR;   
     }
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t io_GetDigInput(dig_input_t which, bool* value)
+int io_GetDigInput(dig_input_t which, bool* value)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -77,16 +77,16 @@ status_t io_GetDigInput(dig_input_t which, bool* value)
     }
     else
     {
-        stat = STATUS_ERROR;   
+        stat = RS_ERR;   
     }
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t io_GetDigOutput(dig_output_t which, bool* value)
+int io_GetDigOutput(dig_output_t which, bool* value)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -94,7 +94,7 @@ status_t io_GetDigOutput(dig_output_t which, bool* value)
     }
     else
     {
-        stat = STATUS_ERROR;   
+        stat = RS_ERR;   
     }
 
     return stat;

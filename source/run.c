@@ -32,7 +32,7 @@ int run(int argc, char* argv[])
     }
     else
     {
-        if(exec_Init() == STATUS_OK)
+        if(exec_Init() == RS_PASS)
         {
             // Blocks forever.
             ret = exec_Run();
@@ -44,7 +44,7 @@ int run(int argc, char* argv[])
         }
         else
         {
-            ret = STATUS_ERROR;
+            ret = RS_FAIL;
         }
     }
 

@@ -12,7 +12,7 @@
 
 /// Initialize the module.
 /// @return Status.
-status_t common_Init(void);
+int common_Init(void);
 
 /// Maybe log some information.
 /// @param format Format string followed by varargs.
@@ -20,7 +20,7 @@ void common_Log(const char* format, ...);
 
 /// Clean up module resources.
 /// @return Status.
-status_t common_Destroy(void);
+int common_Destroy(void);
 
 
 #endif // COMMON_MODULE_H

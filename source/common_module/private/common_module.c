@@ -11,9 +11,9 @@
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t common_Init(void)
+int common_Init(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     // Other stuff to do.
     
@@ -22,9 +22,9 @@ status_t common_Init(void)
 
 
 //--------------------------------------------------------//
-status_t common_Destroy(void)
+int common_Destroy(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
   
     return stat;
 }

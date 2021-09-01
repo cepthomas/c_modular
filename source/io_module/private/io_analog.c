@@ -11,30 +11,30 @@
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp)
+int io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp)
 {
     (void)which;
     (void)fp;
 
-    return STATUS_OK;
+    return RS_PASS;
 }
 
 //--------------------------------------------------------//
-status_t io_SetAnaOutput(ana_output_t which, uint16_t value)
+int io_SetAnaOutput(ana_output_t which, uint16_t value)
 {
     (void)which;
     (void)value;
 
-    return STATUS_OK;
+    return RS_PASS;
 }
 
 //--------------------------------------------------------//
-status_t io_GetAnaInput(ana_input_t which, uint16_t* value)
+int io_GetAnaInput(ana_input_t which, uint16_t* value)
 {
     (void)which;
     (void)value;
 
-    return STATUS_OK;
+    return RS_PASS;
 }
 
 

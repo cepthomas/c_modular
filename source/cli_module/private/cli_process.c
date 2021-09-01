@@ -36,20 +36,20 @@ static dig_output_t p_ParseDigOutput(const char* dout)
 //---------------- Public API Implementation -------------//
 
 //--------------------------------------------------------//
-status_t cli_Init()
+int cli_Init()
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t cli_Process(const char* cmd, char* resp)
+int cli_Process(const char* cmd, char* resp)
 {
     (void)cmd;
     (void)resp;
 
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     if(strlen(cmd) > 0)
     {
@@ -89,19 +89,19 @@ status_t cli_Process(const char* cmd, char* resp)
         }
         else
         {
-            stat = STATUS_WARN;
+            stat = RS_FAIL;
         }
 
-        strcpy(resp, stat == STATUS_OK ? "OK" : "NG");
+        strcpy(resp, stat == RS_PASS ? "OK" : "NG");
     }
 
     return stat;
 }
 
 //--------------------------------------------------------//
-status_t cli_Destroy(void)
+int cli_Destroy(void)
 {
-    status_t stat = STATUS_OK;
+    int stat = RS_PASS;
 
     return stat;
 }

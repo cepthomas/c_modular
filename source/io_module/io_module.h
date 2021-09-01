@@ -68,53 +68,53 @@ typedef void (*io_AnaInputCallback_t)(ana_input_t which, uint16_t value);
 
 /// Initialize the module.
 /// @return Status.
-status_t io_Init(void);
+int io_Init(void);
 
 /// Client registers a digital callback.
 /// @param which Specific input number.
 /// @param fp The callback function.
 /// @return Status.
-status_t io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp);
+int io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp);
 
 /// Set the value of a specific digital output.
 /// @param which Specific output number.
 /// @param value The value to set.
 /// @return Status.
-status_t io_SetDigOutput(dig_output_t which, bool value);
+int io_SetDigOutput(dig_output_t which, bool value);
 
 /// Get the value of a specific digital input.
 /// @param which Specific input number.
 /// @param value Where to put the value.
 /// @return Status.
-status_t io_GetDigInput(dig_input_t which, bool* value);
+int io_GetDigInput(dig_input_t which, bool* value);
 
 /// Get the value of a specific digital output.
 /// @param which Specific output number.
 /// @param value Where to put the value.
 /// @return Status.
-status_t io_GetDigOutput(dig_output_t which, bool* value);
+int io_GetDigOutput(dig_output_t which, bool* value);
 
 /// Client registers an analog callback.
 /// @param which Specific input number.
 /// @param fp The callback function.
 /// @return Status.
-status_t io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp);
+int io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp);
 
 /// Set the value of a specific analog output.
 /// @param which Specific output number.
 /// @param value The value to set.
 /// @return Status.
-status_t io_SetAnaOutput(ana_output_t which, uint16_t value);
+int io_SetAnaOutput(ana_output_t which, uint16_t value);
 
 /// Get the value of a specific analog input.
 /// @param which Specific input number.
 /// @param value Where to put the value.
 /// @return Status.
-status_t io_GetAnaInput(ana_input_t which, uint16_t* value);
+int io_GetAnaInput(ana_input_t which, uint16_t* value);
 
 /// Clean up module resources.
 /// @return Status.
-status_t io_Destroy(void);
+int io_Destroy(void);
 
 
 #endif // IO_MODULE_H
