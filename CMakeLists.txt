@@ -14,7 +14,6 @@ include_directories(
     source/exec_module
     source/io_module
     source/hal_module
-    ../c_bag_of_tricks/source
     ../c_bag_of_tricks/pnut
     )
     

@@ -1,13 +1,13 @@
-:: Standard build - used by VS Code task.
+
+echo off
 
 :: Setup dirs and files.
 mkdir build
-cd build
+pushd build
 rem del /F /Q *.*
 
 :: Build the app.
 cmake -G "MinGW Makefiles" ..
 make
-cd ..
 
-rem pause
+popd build
