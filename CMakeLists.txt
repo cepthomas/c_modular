@@ -8,13 +8,17 @@ project(cmod_test)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Wno-deprecated-declarations")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
+# TODO1 fix these paths. Or use built libs?
+set(CBOT   "C:/Dev/repos/C/c_bag_of_tricks")
+
+
 include_directories(
     source/common_module
     source/cli_module
     source/exec_module
     source/io_module
     source/hal_module
-    ../c_bag_of_tricks/pnut
+    ${CBOT}/pnut
     )
     
 # add_compile_definitions(HAVE_LIST=1)
@@ -35,5 +39,5 @@ add_executable(cmod_test
     test/test_exec.cpp
     test/test_io.cpp
     test/hal_board_mock.c
-    ../c_bag_of_tricks/pnut/pnut.cpp
+    ${CBOT}/pnut/pnut.cpp
     )
