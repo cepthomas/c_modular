@@ -1,3 +1,6 @@
+# Build the module with its unit tests.
+# This is a Windows 64 bit build. PATH must include ...\mingw64\bin.
+
 cmake_minimum_required(VERSION 3.5)
 project(cmod_test)
 
@@ -5,7 +8,7 @@ project(cmod_test)
 # set(CMAKE_CXX_STANDARD 11)
 
 # needs -g to debug.
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Wno-deprecated-declarations")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
 set(CBOT "C:/Dev/repos/C/c_bag_of_tricks")
@@ -32,7 +35,6 @@ add_executable(cmod_test
     source/io_module/private/io_module.c
     source/io_module/private/io_digital.c
     source/io_module/private/io_analog.c
-    # source/hal_module/private/hal_board.c
     test/test_main.cpp
     test/test_cli.cpp
     test/test_exec.cpp

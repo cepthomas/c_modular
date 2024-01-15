@@ -1,7 +1,7 @@
 # c_modular
 
 ## Overview
-This is a formalization of several techniques I have used in the past when implementing embedded C code.
+This is a formalization of several techniques and conventions I have used in the past when implementing embedded C code.
 While you have to debug the final package on the target in real time, that is a pain to do for the more
 mundane and algorithmic stuff. To make life easier, it is necessary to separate out the hardware and time
 dependent content from the rest of the application. When they are isolated they can be replaced by components
@@ -41,13 +41,30 @@ Everything not public is private/static and looks like:
 static bool p_myStatus;
 static void p_myPrivateFunc(args);
 ```
+A reasonable variation is:
+``` C
+static bool _myStatus;
+static void _myPrivateFunc(args);
+```
+
+## Other Conventions
+- All C projects use this naming convention:
+    - variables are `int snake_case`.
+    - private variables are `static int p_snake_case`.
+    - constants and defines are `UPPER_CASE`.
+    - public functions are `module_MyFunc()`.
+    - private functions are `p_MyFunc()`.
+    - `int* pint`, not `int *pint`.
+    It's basically the [Barr Group standard](https://barrgroup.com/embedded-systems/books/embedded-c-coding-standard)
+    with some minor adjustments, because.
+- Code documentation uses the `///` variation of javadoc, suitable for doxygen.  
 
 ## Example
 A somewhat brain-dead example of a hypothetical embedded C project is provided.
 The application source looks like this:
 ```
 source
-main.c
+|   run.c
 +---cli_module
 |   |   cli_module.h
 |   \---private
@@ -79,7 +96,8 @@ test
 ```
 Where:
 - `hal_board_mock.c` and `hal_board_mock.h` contain:
-    - the simulation implementation of the hal_module. Note that it would make more sense to use something like [fff](https://github.com/meekrosoft/fff).
+    - the simulation implementation of the hal_module. Note that it would make more sense to use something like
+    [fff](https://github.com/meekrosoft/fff).
     - the hooks between the hal_module and the test suites.
 - `test_xxx.cpp` contains the test suites.
 - `main.cpp` is the entry point and test executor.
@@ -93,4 +111,7 @@ The former is pure C99 which should compile anywhere, even for minimal embedded 
 If you want to use the latter, it requires [c_bag_of_tricks](https://github.com/cepthomas/c_bag_of_tricks)
 at the same level as this project. Maybe I'll make it a submodule some time.
 
-Also a VS Code workspace using mingw and CMake is supplied.
+All C projects generally provide these scripts:
+    - build.cmd - build the component
+    - test.cmd - build unit tests then run them
+    - run.cmd - if it's an application run it
