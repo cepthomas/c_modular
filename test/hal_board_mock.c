@@ -52,7 +52,7 @@ static bool p_enbInterrupts;
 //--------------------------------------------------------//
 int hal_Init(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_enbInterrupts = false;
     p_digInterrupt = NULL;
     p_anaInterrupt = NULL;
@@ -67,14 +67,14 @@ int hal_Init(void)
 //--------------------------------------------------------//
 int hal_Destroy(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     return stat;
 }
 
 //--------------------------------------------------------//
 int hal_EnbInterrupts(bool enb)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_enbInterrupts = enb;
     return stat;
 }
@@ -82,7 +82,7 @@ int hal_EnbInterrupts(bool enb)
 //--------------------------------------------------------//
 int hal_Log(const char* txt)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     snprintf(p_lastLogWrite, BUFF_LEN, "%s", txt);
     return stat;
 }
@@ -90,7 +90,7 @@ int hal_Log(const char* txt)
 //--------------------------------------------------------//
 int hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_digInterrupt = fp;
     return stat;
 }
@@ -98,7 +98,7 @@ int hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 //--------------------------------------------------------//
 int hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_anaInterrupt = fp;
     return stat;
 }
@@ -106,7 +106,7 @@ int hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 //--------------------------------------------------------//
 int hal_RegTimerInterrupt(unsigned int period, hal_TimerInterrupt_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_timerPeriod = period;
     p_timerInterrupt = fp;
     return stat;
@@ -115,7 +115,7 @@ int hal_RegTimerInterrupt(unsigned int period, hal_TimerInterrupt_t fp)
 //--------------------------------------------------------//
 int hal_WriteDig(unsigned int pin, bool value)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     p_digPins[pin] = value;
     return stat;
 }
@@ -123,7 +123,7 @@ int hal_WriteDig(unsigned int pin, bool value)
 //--------------------------------------------------------//
 int hal_ReadDig(unsigned int pin, bool* value)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     *value = p_digPins[pin];
     return stat;
 }
@@ -134,7 +134,7 @@ int hal_writeAnalog(unsigned int channel, uint16_t value)
     (void)channel;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     return stat;
 }
 
@@ -144,7 +144,7 @@ int hal_readAnalog(unsigned int channel, uint16_t value)
     (void)channel;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     return stat;
 }
 
@@ -153,7 +153,7 @@ int hal_SerOpen(unsigned int channel)
 {
     (void)channel;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     return stat;
 }
 
@@ -164,7 +164,7 @@ int hal_SerReadLine(unsigned int channel, char* buff, int num)
     (void)buff;
     (void)num;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     strcpy(buff, p_nextSerRead);
     p_nextSerRead[0] = 0;
     return stat;
@@ -176,7 +176,7 @@ int hal_SerWriteLine(unsigned int channel, char* buff)
     (void)channel;
     (void)buff;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     strncpy(p_lastSerWrite, buff, BUFF_LEN);
     p_lastSerWrite[0] = 0;
     return stat;    

@@ -13,7 +13,7 @@
 //--------------------------------------------------------//
 int common_Init(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     // Other stuff to do.
     
@@ -24,7 +24,7 @@ int common_Init(void)
 //--------------------------------------------------------//
 int common_Destroy(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
   
     return stat;
 }

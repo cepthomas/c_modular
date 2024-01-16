@@ -16,7 +16,7 @@ int io_RegAnaInputCallback(ana_input_t which, io_AnaInputCallback_t fp)
     (void)which;
     (void)fp;
 
-    return RS_PASS;
+    return STAT_PASS;
 }
 
 //--------------------------------------------------------//
@@ -25,7 +25,7 @@ int io_SetAnaOutput(ana_output_t which, uint16_t value)
     (void)which;
     (void)value;
 
-    return RS_PASS;
+    return STAT_PASS;
 }
 
 //--------------------------------------------------------//
@@ -34,7 +34,7 @@ int io_GetAnaInput(ana_input_t which, uint16_t* value)
     (void)which;
     (void)value;
 
-    return RS_PASS;
+    return STAT_PASS;
 }
 
 

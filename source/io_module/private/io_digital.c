@@ -23,7 +23,7 @@ static void p_DigInterruptHandler(unsigned int which, bool value);
 //--------------------------------------------------------//
 int io_InitDig(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     memset(p_dig_callbacks, 0x00, sizeof(p_dig_callbacks));
 
@@ -35,7 +35,7 @@ int io_InitDig(void)
 //--------------------------------------------------------//
 int io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     if(which < DIG_IN_END)
     {
@@ -43,7 +43,7 @@ int io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
     }
     else
     {
-        stat = RS_ERR;   
+        stat = STAT_ERR;   
     }
 
     return stat;
@@ -52,7 +52,7 @@ int io_RegDigInputCallback(dig_input_t which, io_DigInputCallback_t fp)
 //--------------------------------------------------------//
 int io_SetDigOutput(dig_output_t which, bool value)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -60,7 +60,7 @@ int io_SetDigOutput(dig_output_t which, bool value)
     }
     else
     {
-        stat = RS_ERR;   
+        stat = STAT_ERR;   
     }
 
     return stat;
@@ -69,7 +69,7 @@ int io_SetDigOutput(dig_output_t which, bool value)
 //--------------------------------------------------------//
 int io_GetDigInput(dig_input_t which, bool* value)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -77,7 +77,7 @@ int io_GetDigInput(dig_input_t which, bool* value)
     }
     else
     {
-        stat = RS_ERR;   
+        stat = STAT_ERR;   
     }
 
     return stat;
@@ -86,7 +86,7 @@ int io_GetDigInput(dig_input_t which, bool* value)
 //--------------------------------------------------------//
 int io_GetDigOutput(dig_output_t which, bool* value)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     if(which < NUM_DIG_PINS)
     {
@@ -94,7 +94,7 @@ int io_GetDigOutput(dig_output_t which, bool* value)
     }
     else
     {
-        stat = RS_ERR;   
+        stat = STAT_ERR;   
     }
 
     return stat;

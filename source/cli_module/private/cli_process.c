@@ -38,7 +38,7 @@ static dig_output_t p_ParseDigOutput(const char* dout)
 //--------------------------------------------------------//
 int cli_Init()
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -49,7 +49,7 @@ int cli_Process(const char* cmd, char* resp)
     (void)cmd;
     (void)resp;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     if(strlen(cmd) > 0)
     {
@@ -89,10 +89,10 @@ int cli_Process(const char* cmd, char* resp)
         }
         else
         {
-            stat = RS_FAIL;
+            stat = STAT_FAIL;
         }
 
-        strcpy(resp, stat == RS_PASS ? "OK" : "NG");
+        strcpy(resp, stat == STAT_PASS ? "OK" : "NG");
     }
 
     return stat;
@@ -101,7 +101,7 @@ int cli_Process(const char* cmd, char* resp)
 //--------------------------------------------------------//
 int cli_Destroy(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }

@@ -16,7 +16,7 @@ extern int io_InitDig(void);
 //--------------------------------------------------------//
 int io_Init(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     stat = io_InitDig();
 
@@ -27,7 +27,7 @@ int io_Init(void)
 //--------------------------------------------------------//
 int io_Destroy(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
   
     return stat;
 }

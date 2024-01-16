@@ -27,7 +27,7 @@ static bool p_enb_interrupts;
 //--------------------------------------------------------//
 int hal_Init(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     p_enb_interrupts = false;
     p_dig_interrupt = NULL;
@@ -40,7 +40,7 @@ int hal_Init(void)
 //--------------------------------------------------------//
 int hal_Destroy(void)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
   
     return stat;
 }
@@ -48,7 +48,7 @@ int hal_Destroy(void)
 //--------------------------------------------------------//
 int hal_EnbInterrupts(bool enb)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     p_enb_interrupts = enb;
 
@@ -58,7 +58,7 @@ int hal_EnbInterrupts(bool enb)
 //--------------------------------------------------------//
 int hal_Log(const char* txt)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     // Fake logger.
     printf("LOG:%s", txt);
@@ -69,7 +69,7 @@ int hal_Log(const char* txt)
 //--------------------------------------------------------//
 int hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     p_dig_interrupt = fp;
 
@@ -79,7 +79,7 @@ int hal_RegDigInterrupt(hal_DigInterrupt_t fp)
 //--------------------------------------------------------//
 int hal_RegAnaInterrupt(hal_AnaInterrupt_t fp)
 {
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     p_ana_interrupt = fp;
 
@@ -91,7 +91,7 @@ int hal_RegTimerInterrupt(unsigned int when, hal_TimerInterrupt_t fp)
 {
     (void)when;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     p_timer_interrupt = fp;
 
@@ -110,7 +110,7 @@ int hal_WriteDig(unsigned int pin, bool value)
     (void)pin;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -121,7 +121,7 @@ int hal_ReadDig(unsigned int pin, bool* value)
     (void)pin;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -132,7 +132,7 @@ int hal_writeAnalog(unsigned int channel, uint16_t value)
     (void)channel;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -143,7 +143,7 @@ int hal_readAnalog(unsigned int channel, uint16_t value)
     (void)channel;
     (void)value;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -153,7 +153,7 @@ int hal_SerOpen(unsigned int channel)
 {
     (void)channel;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -165,7 +165,7 @@ int hal_SerReadLine(unsigned int channel, char* buff, int num)
     (void)buff;
     (void)num;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
 
     return stat;
 }
@@ -176,7 +176,7 @@ int hal_SerWriteLine(unsigned int channel, char* buff)
     (void)channel;
     (void)buff;
 
-    int stat = RS_PASS;
+    int stat = STAT_PASS;
     
     return stat;    
 }
