@@ -1,5 +1,5 @@
 
-echo off
+rem echo off
 
 pushd build
 cmod_test

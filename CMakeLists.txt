@@ -9,8 +9,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall")
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall")
 
-set(CBOT "C:/Dev/repos/C/c_bag_of_tricks")
-
 
 include_directories(
     source/common_module
@@ -18,7 +16,6 @@ include_directories(
     source/exec_module
     source/io_module
     source/hal_module
-    ${CBOT}/pnut
     )
     
 # add_compile_definitions(HAVE_LIST=1)
@@ -33,10 +30,6 @@ add_executable(cmod_test
     source/io_module/private/io_module.c
     source/io_module/private/io_digital.c
     source/io_module/private/io_analog.c
-    test/test_main.cpp
-    test/test_cli.cpp
-    test/test_exec.cpp
-    test/test_io.cpp
+    test/main.c
     test/hal_board_mock.c
-    ${CBOT}/pnut/pnut.cpp
     )
