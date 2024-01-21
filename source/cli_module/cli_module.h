@@ -4,7 +4,7 @@
 
 #include "common_module.h"
 
-/// @brief Interface to the CLI module. TODO2 use cbot flavor?
+/// @brief Interface to the CLI module.
 
 
 //---------------- Public API ----------------------//
