@@ -48,6 +48,10 @@ static void _myPrivateFunc(args);
 ```
 
 ## Other Conventions
+
+It's basically the [Barr Group standard](https://barrgroup.com/embedded-systems/books/embedded-c-coding-standard)
+with some minor adjustments, because.
+
 - All C projects use this naming convention:
     - variables are `int snake_case`.
     - private variables are `static int p_snake_case`.
@@ -55,8 +59,6 @@ static void _myPrivateFunc(args);
     - public functions are `module_MyFunc()`.
     - private functions are `p_MyFunc()`.
     - `int* pint`, not `int *pint`.
-    It's basically the [Barr Group standard](https://barrgroup.com/embedded-systems/books/embedded-c-coding-standard)
-    with some minor adjustments, because.
 - Code documentation uses the `///` variation of javadoc, suitable for doxygen.  
 
 ## Example
