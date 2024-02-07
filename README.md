@@ -1,4 +1,4 @@
-# c_modular
+# C Module Model  TODO1 update for file/dir conventions -> files.txt
 
 ## Overview
 This is a formalization of several techniques and conventions I have used in the past when implementing embedded C code.
@@ -41,13 +41,11 @@ Everything not public is private/static and looks like:
 static bool p_myStatus;
 static void p_myPrivateFunc(args);
 ```
-A reasonable variation is:
-``` C
-static bool _myStatus;
-static void _myPrivateFunc(args);
-```
+A reasonable variation is to use `_` instead of `p_`.
+
 
 ## Other Conventions
+
 
 It's basically the [Barr Group standard](https://barrgroup.com/embedded-systems/books/embedded-c-coding-standard)
 with some minor adjustments, because.
