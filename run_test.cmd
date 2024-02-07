@@ -1,6 +1,6 @@
 
 rem echo off
 
-pushd build
+pushd build_test
 cmod_test
 popd
