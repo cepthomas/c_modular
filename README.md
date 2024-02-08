@@ -1,4 +1,4 @@
-# C Module Model  TODO1 update for file/dir conventions -> files.txt
+# C Module Model
 
 ## Overview
 This is a formalization of several techniques and conventions I have used in the past when implementing embedded C code.
@@ -6,8 +6,11 @@ While you have to debug the final package on the target in real time, that is a 
 mundane and algorithmic stuff. To make life easier, it is necessary to separate out the hardware and time
 dependent content from the rest of the application. When they are isolated they can be replaced by components
 more tuned to debugging and testing. While this can be done with all sorts of FOSS I find the majority to be
-too heavy or unecessarily complicated. I just want a simple way to stub IO so ended up with a home-brew that
-is used in conjunction with my trusty unit tester [pnut](https://github.com/cepthomas/c_bag_of_tricks).
+too heavy or unecessarily complicated. I just want a simple way to stub IO so ended up with this home-brew.
+
+This uses [C code conventions](https://github.com/cepthomas/c_bag_of_tricks/blob/master/conventions.md).
+
+A CMake mingw solution is provided.
 
 ## Modules
 In other languages, interfaces or abstract classes are very handy for defining the boundaries that can be 
@@ -18,7 +21,7 @@ and adherence to convention but we're all pros here, right?
 
 A module is simply a subdir that follows this pattern:
 ```
-source
+source_code
 \---abc_module
     |   abc_module.h
     |   
@@ -30,40 +33,12 @@ Where:
 - `abc_module.h` contains only the minimum public needed by a consumer of this module.
 - `abc_impl.c` and `abc_internal.c` contain all the code required to do the work.
 
-There are some other conventions:
-All module public functions are of the form:
-``` C
-int abc_myFunc1(args);
-void abc_myFunc2(args);
-```
-Everything not public is private/static and looks like:
-``` C
-static bool p_myStatus;
-static void p_myPrivateFunc(args);
-```
-A reasonable variation is to use `_` instead of `p_`.
-
-
-## Other Conventions
-
-
-It's basically the [Barr Group standard](https://barrgroup.com/embedded-systems/books/embedded-c-coding-standard)
-with some minor adjustments, because.
-
-- All C projects use this naming convention:
-    - variables are `int snake_case`.
-    - private variables are `static int p_snake_case`.
-    - constants and defines are `UPPER_CASE`.
-    - public functions are `module_MyFunc()`.
-    - private functions are `p_MyFunc()`.
-    - `int* pint`, not `int *pint`.
-- Code documentation uses the `///` variation of javadoc, suitable for doxygen.  
 
 ## Example
-A somewhat brain-dead example of a hypothetical embedded C project is provided.
+A simplistic example of a hypothetical embedded pure C project is provided.
 The application source looks like this:
 ```
-source
+source_code
 |   run.c
 +---cli_module
 |   |   cli_module.h
@@ -85,12 +60,12 @@ source
 Of particular note is the hal_module - the hardware abstraction layer. In order to test the rest
 of the application it is only necessary to replace the implementation of that one module.
 
-The test code structure then looks like:
+The test structure then looks like:
 ```
-test
+test_code
     hal_board_mock.c
     hal_board_mock.h
-    test_xxx.cpp
+    test_something.cpp
     main.cpp
     pnut.h
 ```
@@ -99,19 +74,6 @@ Where:
     - the simulation implementation of the hal_module. Note that it would make more sense to use something like
     [fff](https://github.com/meekrosoft/fff).
     - the hooks between the hal_module and the test suites.
-- `test_xxx.cpp` contains the test suites.
+- `test_something.cpp` contains the pnut test suites.
 - `main.cpp` is the entry point and test executor.
 - `pnut.h` is the unit test framework.
-
-## Build
-There are two bodies of code here, the application library, and a test executable.
-
-The former is pure C99 which should compile anywhere, even for minimal embedded systems.
-
-If you want to use the latter, it requires [c_bag_of_tricks](https://github.com/cepthomas/c_bag_of_tricks)
-at the same level as this project. Maybe I'll make it a submodule some time.
-
-All C projects generally provide these scripts:
-    - build.cmd - build the component
-    - test.cmd - build unit tests then run them
-    - run.cmd - if it's an application run it
