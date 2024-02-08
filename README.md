@@ -10,7 +10,7 @@ too heavy or unecessarily complicated. I just want a simple way to stub IO so en
 
 This uses [C code conventions](https://github.com/cepthomas/c_bag_of_tricks/blob/master/conventions.md).
 
-A CMake mingw solution is provided.
+A mingw CMake solution is provided.
 
 ## Modules
 In other languages, interfaces or abstract classes are very handy for defining the boundaries that can be 
